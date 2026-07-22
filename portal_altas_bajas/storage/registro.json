@@ -1,0 +1,57 @@
+[
+    {
+        "id": "20260715_120622_c0cb98",
+        "dni": "anonimo_20260715",
+        "nombre": "anonimo_20260715",
+        "template": {
+            "slug": "domiciliaci-on-bancaria",
+            "title": "Domiciliación Bancaria"
+        },
+        "pdf": "documento_firmado.pdf",
+        "adjuntos": [],
+        "folder": "C:\\Users\\dbarrera\\Documents\\borrascas_web\\portal_altas_bajas\/storage\/expedientes\/20260715\/20260715_120622_c0cb98\/",
+        "created_at": "2026-07-15T12:06:22+02:00",
+        "signed_at": "2026-07-15T12:06:22+02:00",
+        "fields": {
+            "Nombe": "Carlos Uceda García del Río"
+        }
+    },
+    {
+        "id": "20260715_115120_792240",
+        "dni": "77765502H",
+        "nombre": "77765502H",
+        "template": {
+            "slug": "baja-vigilancia-quiron-prevenci-on",
+            "title": "Baja Vigilancia Quiron Prevención"
+        },
+        "pdf": "documento_firmado.pdf",
+        "adjuntos": [],
+        "folder": "C:\\Users\\dbarrera\\Documents\\borrascas_web\\portal_altas_bajas\/storage\/expedientes\/77765502H\/20260715_115120_792240\/",
+        "created_at": "2026-07-15T11:51:20+02:00",
+        "signed_at": "2026-07-15T11:51:20+02:00",
+        "fields": {
+            "Nombre": "David Barrera",
+            "DNI": "77765502H",
+            "Empresa": "Faeca",
+            "CIF": "B12345678"
+        }
+    },
+    {
+        "id": "20260715_110630_efe443",
+        "dni": "77765502H",
+        "nombre": "77765502H",
+        "template": {
+            "slug": "baja-prl",
+            "title": "Baja PRL"
+        },
+        "pdf": "documento_firmado.pdf",
+        "adjuntos": [],
+        "folder": "C:\\Users\\dbarrera\\Documents\\borrascas_web\\portal_altas_bajas\/storage\/expedientes\/77765502H\/20260715_110630_efe443\/",
+        "created_at": "2026-07-15T11:06:30+02:00",
+        "signed_at": "2026-07-15T11:06:30+02:00",
+        "fields": {
+            "Nombre": "David Barrera Morales",
+            "DNI": "77765502H"
+        }
+    }
+]

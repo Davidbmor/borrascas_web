@@ -1,0 +1,9 @@
+{
+    "slug": "baja-vs-gpa",
+    "title": "Baja VS GPA",
+    "description": "Rellena y firma el documento Baja VS GPA.",
+    "pdf": "Baja_VS_GPA.pdf",
+    "person_key": "dni",
+    "fields": [],
+    "signature": {}
+}

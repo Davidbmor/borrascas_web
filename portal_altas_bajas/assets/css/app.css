@@ -1,0 +1,146 @@
+:root {
+    --bg: #f3f6f3;
+    --panel: #ffffff;
+    --ink: #173224;
+    --muted: #5f6f68;
+    --line: #d8e3dd;
+    --brand: #1f6b4f;
+    --brand-strong: #14533b;
+    --brand-soft: #e6f2eb;
+    --shadow: 0 18px 40px rgba(23, 50, 36, .08);
+}
+
+html, body {
+    min-height: 100%;
+}
+
+body {
+    background:
+        radial-gradient(circle at top left, rgba(31, 107, 79, .10), transparent 28%),
+        radial-gradient(circle at top right, rgba(20, 83, 59, .08), transparent 22%),
+        linear-gradient(180deg, #f8faf8 0%, var(--bg) 100%);
+    color: var(--ink);
+    font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+
+.portal-shell {
+    position: relative;
+    isolation: isolate;
+}
+
+.hero-panel {
+    color: #fff;
+    background: linear-gradient(135deg, #1c4734 0%, #1f6b4f 55%, #2a8060 100%);
+    box-shadow: var(--shadow);
+}
+
+.admin-hero {
+    background: linear-gradient(135deg, #182f28 0%, #214f3f 55%, #326a56 100%);
+}
+
+.eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: .4rem;
+    font-size: .78rem;
+    letter-spacing: .18em;
+    text-transform: uppercase;
+    opacity: .82;
+    margin-bottom: .75rem;
+}
+
+.letter-space {
+    letter-spacing: .12em;
+}
+
+.form-hero,
+.empty-state,
+.info-card,
+.stats-card,
+.template-card {
+    border: 1px solid rgba(23, 50, 36, .06);
+    border-radius: 1.25rem;
+    background: var(--panel);
+}
+
+.form-hero {
+    padding: 1.5rem;
+    box-shadow: var(--shadow);
+}
+
+.empty-state {
+    padding: 2rem;
+    box-shadow: var(--shadow);
+}
+
+.template-card {
+    box-shadow: var(--shadow);
+}
+
+.info-card {
+    padding: 1.25rem;
+    box-shadow: var(--shadow);
+}
+
+.stats-card {
+    padding: 1.25rem;
+    text-align: center;
+    box-shadow: var(--shadow);
+}
+
+.stats-value {
+    font-size: 2rem;
+    font-weight: 800;
+    color: var(--brand-strong);
+    line-height: 1;
+}
+
+.stats-label {
+    color: var(--muted);
+    font-size: .92rem;
+    margin-top: .35rem;
+}
+
+.signature-wrap {
+    border-radius: 1rem;
+    border: 1px solid var(--line);
+    background: linear-gradient(180deg, #fff 0%, #fbfdfb 100%);
+    overflow: hidden;
+    box-shadow: var(--shadow);
+}
+
+.signature-canvas {
+    display: block;
+    width: 100%;
+    min-height: 220px;
+    height: 240px;
+    touch-action: none;
+    background: #fff;
+    cursor: crosshair;
+}
+
+.table code {
+    color: var(--brand-strong);
+}
+
+.file-pill {
+    display: inline-flex;
+    align-items: center;
+    padding: .45rem .8rem;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    color: var(--brand-strong);
+    text-decoration: none;
+    background: #fff;
+}
+
+.file-pill:hover {
+    background: var(--brand-soft);
+}
+
+@media (max-width: 991px) {
+    .signature-canvas {
+        min-height: 180px;
+        height: 200px;
+    }
+}

@@ -1,0 +1,20 @@
+{
+    "id": "20260715_115120_792240",
+    "dni": "77765502H",
+    "nombre": "77765502H",
+    "template": {
+        "slug": "baja-vigilancia-quiron-prevenci-on",
+        "title": "Baja Vigilancia Quiron Prevención"
+    },
+    "pdf": "documento_firmado.pdf",
+    "adjuntos": [],
+    "folder": "C:\\Users\\dbarrera\\Documents\\borrascas_web\\portal_altas_bajas\/storage\/expedientes\/77765502H\/20260715_115120_792240\/",
+    "created_at": "2026-07-15T11:51:20+02:00",
+    "signed_at": "2026-07-15T11:51:20+02:00",
+    "fields": {
+        "Nombre": "David Barrera",
+        "DNI": "77765502H",
+        "Empresa": "Faeca",
+        "CIF": "B12345678"
+    }
+}

@@ -1,0 +1,17 @@
+{
+    "id": "20260715_120622_c0cb98",
+    "dni": "anonimo_20260715",
+    "nombre": "anonimo_20260715",
+    "template": {
+        "slug": "domiciliaci-on-bancaria",
+        "title": "Domiciliación Bancaria"
+    },
+    "pdf": "documento_firmado.pdf",
+    "adjuntos": [],
+    "folder": "C:\\Users\\dbarrera\\Documents\\borrascas_web\\portal_altas_bajas\/storage\/expedientes\/20260715\/20260715_120622_c0cb98\/",
+    "created_at": "2026-07-15T12:06:22+02:00",
+    "signed_at": "2026-07-15T12:06:22+02:00",
+    "fields": {
+        "Nombe": "Carlos Uceda García del Río"
+    }
+}

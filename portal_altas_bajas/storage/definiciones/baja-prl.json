@@ -1,0 +1,40 @@
+{
+    "slug": "baja-prl",
+    "title": "Baja PRL",
+    "description": "Rellena y firma el documento Baja PRL.",
+    "pdf": "Baja PRL.pdf",
+    "person_key": "DNI",
+    "fields": [
+        {
+            "name": "Nombre",
+            "label": "Nombre  y apellifos",
+            "type": "text",
+            "page": 1,
+            "x": 42.1,
+            "y": 70.2,
+            "w": 138.2,
+            "h": 6.4,
+            "font_size": 9,
+            "required": true
+        },
+        {
+            "name": "DNI",
+            "label": "DNI",
+            "type": "text",
+            "page": 1,
+            "x": 44.6,
+            "y": 77,
+            "w": 35.2,
+            "h": 5.9,
+            "font_size": 9,
+            "required": true
+        }
+    ],
+    "signature": {
+        "page": 1,
+        "x": 109.5,
+        "y": 202,
+        "w": 74.4,
+        "h": 24
+    }
+}

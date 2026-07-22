@@ -1,0 +1,28 @@
+{
+    "slug": "domiciliaci-on-bancaria",
+    "title": "Domiciliación Bancaria",
+    "description": "Rellena y firma el documento Domiciliación Bancaria.",
+    "pdf": "Domiciliación Bancaria.pdf",
+    "person_key": "dni",
+    "fields": [
+        {
+            "name": "Nombe",
+            "label": "Nombre y apellidos",
+            "type": "text",
+            "page": 1,
+            "x": 99.8,
+            "y": 259.5,
+            "w": 80,
+            "h": 6,
+            "font_size": 9,
+            "required": true
+        }
+    ],
+    "signature": {
+        "page": 1,
+        "x": 100.3,
+        "y": 230,
+        "w": 79.2,
+        "h": 28.4
+    }
+}

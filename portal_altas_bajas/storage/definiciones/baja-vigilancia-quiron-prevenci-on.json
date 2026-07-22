@@ -1,0 +1,64 @@
+{
+    "slug": "baja-vigilancia-quiron-prevenci-on",
+    "title": "Baja Vigilancia Quiron Prevención",
+    "description": "Rellena y firma el documento Baja Vigilancia Quiron Prevención.",
+    "pdf": "Baja Vigilancia Quiron Prevención.pdf",
+    "person_key": "dni",
+    "fields": [
+        {
+            "name": "Nombre",
+            "label": "Nombre y apellidos",
+            "type": "text",
+            "page": 1,
+            "x": 43.3,
+            "y": 75,
+            "w": 136.3,
+            "h": 6.6,
+            "font_size": 9,
+            "required": true
+        },
+        {
+            "name": "DNI",
+            "label": "DNI",
+            "type": "text",
+            "page": 1,
+            "x": 43.7,
+            "y": 81.8,
+            "w": 34.9,
+            "h": 5.6,
+            "font_size": 9,
+            "required": true
+        },
+        {
+            "name": "Empresa",
+            "label": "Empresa",
+            "type": "text",
+            "page": 1,
+            "x": 47.6,
+            "y": 87.3,
+            "w": 77.5,
+            "h": 6.7,
+            "font_size": 9,
+            "required": true
+        },
+        {
+            "name": "CIF",
+            "label": "CIF",
+            "type": "text",
+            "page": 1,
+            "x": 145.4,
+            "y": 88.5,
+            "w": 34.7,
+            "h": 4.8,
+            "font_size": 9,
+            "required": true
+        }
+    ],
+    "signature": {
+        "page": 1,
+        "x": 108.7,
+        "y": 225.2,
+        "w": 82.3,
+        "h": 21.8
+    }
+}

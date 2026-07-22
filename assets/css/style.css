@@ -1,0 +1,337 @@
+/* ================================================================
+   BORRASCAS - Estilos personalizados
+   ================================================================ */
+
+/* --- Variables ------------------------------------------------- */
+:root {
+    --verde:        #2d6a4f;
+    --verde-oscuro: #1b4332;
+    --verde-claro:  #d8f3dc;
+    --verde-suave:  #f0faf3;
+    --dorado:       #e9c46a;
+    --dorado-light: #fff8e1;
+    --gris-texto:   #3d3d3d;
+    --borde:        #dee2e6;
+    --sombra:       rgba(0,0,0,.07);
+    --sombra-hover: rgba(0,0,0,.13);
+}
+
+/* --- Tipografía base ------------------------------------------- */
+body {
+    background-color: #f0f4f0;
+    color: var(--gris-texto);
+    font-size: .93rem;
+    line-height: 1.6;
+}
+
+/* --- Cabecera -------------------------------------------------- */
+.site-header {
+    background: #ffffff;
+    border-bottom: 2px solid #e0e8e3;
+    box-shadow: 0 2px 8px rgba(0,0,0,.07);
+}
+.site-logo {
+    height: 52px;
+    width: auto;
+    display: block;
+}
+.site-title-main {
+    font-size: 1rem;
+    color: var(--verde-oscuro);
+    line-height: 1.2;
+}
+.site-title-sub {
+    font-size: .78rem;
+}
+.site-footer-bar {
+    background: #f4f7f5;
+    border-top: 1px solid #e0e8e3;
+    font-size: .82rem;
+}
+
+/* --- Landing page ------------------------------------------------ */
+.landing-hero {
+    background: linear-gradient(135deg, #1c4734 0%, #2d6a4f 60%, #3a8c66 100%);
+    color: #fff;
+    padding: 3.5rem 0 3rem;
+}
+.landing-hero .site-title-main,
+.landing-hero .site-title-sub { color: rgba(255,255,255,.9); }
+.model-card {
+    border: 1px solid #d0e8d8;
+    border-radius: 1rem;
+    box-shadow: 0 8px 30px rgba(0,0,0,.08);
+    transition: transform .18s, box-shadow .18s;
+    cursor: pointer;
+}
+.model-card:hover { transform: translateY(-4px); box-shadow: 0 16px 40px rgba(0,0,0,.14); }
+.model-card.disabled { opacity: .55; cursor: default; pointer-events: none; }
+.model-icon-wrap {
+    width: 52px; height: 52px; border-radius: .75rem;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.5rem;
+}
+
+/* --- Indice del informe (PDF y web) ----------------------------- */
+.indice-informe {
+    background: var(--verde-suave);
+    border: 1px solid #c3dac8;
+    border-radius: .6rem;
+    padding: 1.25rem 1.5rem;
+    margin-bottom: 1.5rem;
+}
+.indice-informe h3 {
+    color: var(--verde-oscuro);
+    font-size: 1rem;
+    font-weight: 700;
+    margin-bottom: .75rem;
+}
+.indice-informe ol {
+    margin: 0; padding-left: 1.2rem; color: var(--verde);
+}
+.indice-informe li { font-size: .9rem; margin-bottom: .2rem; }
+
+/* --- Número de expediente -------------------------------------- */
+.num-expediente-badge {
+    background: var(--verde-oscuro);
+    color: #fff;
+    border-radius: .5rem;
+    padding: .4rem 1rem;
+    font-weight: 700;
+    font-size: 1rem;
+    letter-spacing: .04em;
+    display: inline-flex;
+    align-items: center;
+    gap: .4rem;
+}
+
+/* --- Cards ----------------------------------------------------- */
+.card {
+    border: 1px solid var(--borde);
+    border-radius: .6rem;
+    box-shadow: 0 2px 8px var(--sombra);
+    transition: box-shadow .2s;
+}
+.card:hover {
+    box-shadow: 0 4px 16px var(--sombra-hover);
+}
+.section-header {
+    background: linear-gradient(90deg, var(--verde) 0%, var(--verde-oscuro) 100%);
+    color: #fff;
+    font-weight: 600;
+    font-size: .9rem;
+    letter-spacing: .02em;
+    border-radius: .6rem .6rem 0 0 !important;
+    border: none;
+    padding: .65rem 1rem;
+}
+
+/* --- Tablas de datos ------------------------------------------- */
+.table {
+    --bs-table-striped-bg: var(--verde-suave);
+    border-radius: .4rem;
+    overflow: hidden;
+    font-size: .9rem;
+}
+.table th {
+    font-weight: 600;
+    font-size: .82rem;
+    text-transform: uppercase;
+    letter-spacing: .04em;
+    white-space: nowrap;
+    color: var(--verde-oscuro);
+    border-color: #c8ddd0;
+}
+.table td {
+    border-color: #e0ece4;
+    vertical-align: middle;
+}
+.table-striped > tbody > tr:nth-of-type(odd) > * {
+    background-color: var(--verde-suave);
+}
+.table-sm th, .table-sm td {
+    padding: .45rem .75rem;
+}
+
+/* --- Tabla datos de campaña (sección verde) ------------------- */
+.card.border-success .table th {
+    background-color: var(--verde-claro);
+    color: var(--verde-oscuro);
+    font-size: .83rem;
+}
+.card.border-success {
+    border-color: #74c69d !important;
+}
+.card.border-success .card-header.bg-success {
+    background: linear-gradient(90deg, var(--verde) 0%, var(--verde-oscuro) 100%) !important;
+    font-size: .9rem;
+    border-radius: .6rem .6rem 0 0;
+    padding: .65rem 1rem;
+}
+
+/* --- Tabla de cálculos (live preview) -------------------------- */
+.calc-table {
+    font-size: .88rem;
+}
+.calc-table thead th {
+    background-color: var(--verde-oscuro);
+    color: #fff;
+    font-size: .8rem;
+    border-color: var(--verde-oscuro);
+}
+.calc-table tbody td {
+    border-color: #dce8e0;
+}
+.calc-table tbody tr:hover td {
+    background-color: #eef7f1;
+}
+.calc-table tfoot td {
+    background-color: var(--dorado-light);
+    font-weight: 700;
+    font-size: .93rem;
+    border-color: #f0c040;
+}
+#tabla-calculos .fila-total td {
+    font-weight: 700;
+    background: #ffd54f;
+}
+
+/* --- Card preview cálculos ------------------------------------ */
+.card.border-primary {
+    border-color: #74c69d !important;
+}
+.card.border-primary .card-header.bg-primary {
+    background: linear-gradient(90deg, #1565c0 0%, #0d47a1 100%) !important;
+    border-radius: .6rem .6rem 0 0;
+    padding: .65rem 1rem;
+    font-size: .9rem;
+}
+
+/* --- Resultado calculado inline ------------------------------- */
+.calc-result {
+    font-size: .8rem;
+    min-height: 1.2em;
+    color: var(--verde);
+}
+
+/* --- Inputs --------------------------------------------------- */
+.form-control, .form-select {
+    border-color: #c5d8cc;
+    transition: border-color .2s, box-shadow .2s;
+}
+.form-control:focus, .form-select:focus {
+    border-color: var(--verde);
+    box-shadow: 0 0 0 .18rem rgba(45,106,79,.2);
+}
+.input-group-text {
+    background-color: var(--verde-suave);
+    border-color: #c5d8cc;
+    color: var(--verde-oscuro);
+    font-weight: 500;
+    font-size: .85rem;
+}
+
+/* --- Estado DNI ----------------------------------------------- */
+#dni-estado { min-width: 2.5rem; text-align: center; }
+.dni-ok    { color: #2e7d32; }
+.dni-error { color: #c62828; }
+
+/* --- Spinner DNI ---------------------------------------------- */
+.spinner-border-sm {
+    width: 1rem;
+    height: 1rem;
+}
+
+/* --- Previsualización de imágenes ----------------------------- */
+#imagenes-preview .img-thumb {
+    position: relative;
+    display: inline-block;
+}
+#imagenes-preview img {
+    width: 100%;
+    height: 120px;
+    object-fit: cover;
+    border-radius: .4rem;
+    border: 2px solid var(--borde);
+    transition: border-color .2s, box-shadow .2s;
+}
+#imagenes-preview .img-thumb:hover img {
+    border-color: var(--verde);
+    box-shadow: 0 2px 8px rgba(45,106,79,.25);
+}
+#imagenes-preview .badge-num {
+    position: absolute;
+    top: 5px;
+    left: 5px;
+    font-size: .68rem;
+    background: rgba(0,0,0,.55);
+    color: #fff;
+    border-radius: .25rem;
+    padding: 2px 6px;
+}
+#imagenes-preview .btn-eliminar-img {
+    position: absolute;
+    top: 4px;
+    right: 4px;
+    background: rgba(0,0,0,.55);
+    border: none;
+    border-radius: 50%;
+    color: #fff;
+    width: 22px;
+    height: 22px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    padding: 0;
+    font-size: .85rem;
+    line-height: 1;
+    opacity: 0;
+    transition: opacity .15s, background .15s;
+}
+#imagenes-preview .img-thumb:hover .btn-eliminar-img {
+    opacity: 1;
+}
+#imagenes-preview .btn-eliminar-img:hover {
+    background: #c62828;
+}
+
+/* --- Botón generar -------------------------------------------- */
+#btn-generar {
+    background: linear-gradient(135deg, var(--verde) 0%, var(--verde-oscuro) 100%);
+    border: none;
+    font-size: 1.05rem;
+    letter-spacing: .03em;
+    box-shadow: 0 4px 16px rgba(27,67,50,.35);
+    transition: transform .15s, box-shadow .15s;
+    padding: .75rem 3rem;
+}
+#btn-generar:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 7px 20px rgba(27,67,50,.45);
+}
+#btn-generar:active {
+    transform: translateY(0);
+}
+
+/* --- Footer --------------------------------------------------- */
+footer {
+    background-color: #f8faf8;
+    color: #888;
+    font-size: .8rem;
+    border-top: 1px solid #dde8e1 !important;
+}
+
+/* --- Badges en cabeceras ------------------------------------- */
+.section-header .badge {
+    font-size: .72rem;
+    font-weight: 500;
+    opacity: .85;
+}
+
+/* --- Responsive pequeño --------------------------------------- */
+@media (max-width: 576px) {
+    .calc-table { font-size: .76rem; }
+    .site-logo  { height: 64px; }
+    #btn-generar { padding: .65rem 2rem; font-size: .95rem; }
+}
