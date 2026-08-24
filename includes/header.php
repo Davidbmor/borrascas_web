@@ -10,8 +10,8 @@ $assetBase     = $assetBase     ?? '';
 $numExpediente = $numExpediente ?? null;
 
 // Datos de sesión/cuenta
-$userEmail   = $_SESSION['admin_ok'] ? 'admin@faeca.es' : ($_SESSION['user_email'] ?? 'usuario@faeca.es');
-$userRole    = $_SESSION['admin_ok'] ? 'admin' : ($_SESSION['user_role'] ?? 'user');
+$userEmail   = !empty($_SESSION['admin_ok']) ? 'admin@faeca.es' : ($_SESSION['user_email'] ?? 'usuario@faeca.es');
+$userRole    = !empty($_SESSION['admin_ok']) ? 'admin' : ($_SESSION['user_role'] ?? 'user');
 $accountName = $_SESSION['account_name'] ?? 'Cuenta Principal';
 $userInitial = strtoupper(substr($userEmail, 0, 1));
 ?>
@@ -120,7 +120,7 @@ $userInitial = strtoupper(substr($userEmail, 0, 1));
     <!-- LOGOS -->
     <div class="header-left">
         <a href="<?= htmlspecialchars($assetBase ?: './') ?>landing.php" class="logo-container text-decoration-none">
-            <img src="<?= htmlspecialchars($assetBase) ?>assets/img/RoscoTransparente.png" alt="Rosco" class="img-rosco" />
+            <img src="<?= htmlspecialchars($assetBase) ?>assets/img/RoscoTransparente.gif" alt="Rosco" class="img-rosco" />
             <img src="<?= htmlspecialchars($assetBase) ?>assets/img/FaecaAGRO360Transparente.png" alt="Faeca Agro 360" class="img-faeca-agro" />
         </a>
     </div>

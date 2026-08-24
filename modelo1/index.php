@@ -29,10 +29,12 @@ require_once __DIR__ . '/../includes/header.php';
           enctype="multipart/form-data" novalidate>
         <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($csrf) ?>">
 
+        <div data-wizard>
+
         <!-- ═══════════════════════════════════════
              PASO 1 · DATOS PERSONALES
         ═══════════════════════════════════════ -->
-        <div class="card shadow-sm mb-4">
+        <div class="card shadow-sm mb-4 wizard-step" data-step-title="Datos del solicitante" data-step-icon="bi-person-fill">
             <div class="card-header section-header">
                 <i class="bi bi-person-fill me-2"></i>Datos del solicitante
             </div>
@@ -170,7 +172,7 @@ require_once __DIR__ . '/../includes/header.php';
         <!-- ═══════════════════════════════════════
              MODELO 1 · DATOS DE PRODUCCIÓN
         ═══════════════════════════════════════ -->
-        <div id="modelo1">
+        <div id="modelo1" class="wizard-step" data-step-title="Datos de producción" data-step-icon="bi-bar-chart-fill">
 
             <!-- DATOS DE CAMPAÑA (informativos) -->
             <div class="card shadow-sm mb-4 border-success">
@@ -318,7 +320,7 @@ require_once __DIR__ . '/../includes/header.php';
         <!-- ═══════════════════════════════════════
              IMÁGENES / DOCUMENTACIÓN
         ═══════════════════════════════════════ -->
-        <div class="card shadow-sm mb-4" id="seccion-imagenes" style="display:none">
+        <div class="card shadow-sm mb-4 wizard-step" id="seccion-imagenes" data-step-title="Imágenes" data-step-icon="bi-images">
             <div class="card-header section-header">
                 <i class="bi bi-images me-2"></i>Imágenes como prueba de daños
                 <span class="badge bg-secondary ms-2">Opcional · máx. <?= MAX_IMAGENES ?> fotos</span>
@@ -340,7 +342,7 @@ require_once __DIR__ . '/../includes/header.php';
         <!-- ═══════════════════════════════════════
              DOCUMENTOS ADJUNTOS
         ═══════════════════════════════════════ -->
-        <div class="card shadow-sm mb-4" id="seccion-adjuntos" style="display:none">
+        <div class="card shadow-sm mb-4 wizard-step" id="seccion-adjuntos" data-step-title="Documentos adjuntos" data-step-icon="bi-paperclip">
             <div class="card-header section-header">
                 <i class="bi bi-paperclip me-2"></i>Documentos adjuntos
                 <span class="badge bg-secondary ms-2">Opcional · máx. <?= MAX_ADJUNTOS ?> archivos · 8&nbsp;MB c/u</span>
@@ -363,9 +365,10 @@ require_once __DIR__ . '/../includes/header.php';
 
 
         <!-- ═══════════════════════════════════════
-             FIRMA DIGITAL
+             FIRMA Y ENVÍO
         ═══════════════════════════════════════ -->
-        <div id="seccion-firma" class="card shadow-sm mb-4" style="display:none">
+        <div class="wizard-step" data-step-title="Firma y envío" data-step-icon="bi-pen-fill">
+        <div id="seccion-firma" class="card shadow-sm mb-4">
             <div class="card-header bg-white fw-semibold">
                 <i class="bi bi-pen-fill me-2 text-success"></i>Firma del solicitante <span class="badge bg-secondary ms-2">Opcional</span>
             </div>
@@ -385,7 +388,7 @@ require_once __DIR__ . '/../includes/header.php';
         <!-- ═══════════════════════════════════════
              BOTÓN ENVIAR
         ═══════════════════════════════════════ -->
-        <div id="seccion-enviar" class="text-center" style="display:none">
+        <div id="seccion-enviar" class="text-center">
             <p class="text-muted small mb-3">
                 Al pulsar <strong>Generar informe PDF</strong>, se validarán los datos
                 y se descargará el informe. Este formulario no almacena datos personales.
@@ -394,6 +397,9 @@ require_once __DIR__ . '/../includes/header.php';
                 <i class="bi bi-file-earmark-check-fill me-2"></i>Enviar informe
             </button>
         </div>
+        </div><!-- /wizard-step firma-envio -->
+
+        </div><!-- /data-wizard -->
 
     </form><!-- /form -->
 
@@ -464,16 +470,10 @@ require_once __DIR__ . '/../includes/header.php';
     };
 </script>
 <script src="../assets/js/formulario.js"></script>
+<script src="../assets/js/wizard.js"></script>
 <script>
-// tipo_informe está fijo en 1: mostramos todas las secciones al cargar
+// tipo_informe está fijo en 1: las secciones ya se muestran por pasos (wizard.js)
 document.addEventListener('DOMContentLoaded', function () {
-    ['modelo1','seccion-imagenes','seccion-adjuntos','seccion-firma','seccion-enviar'].forEach(function (id) {
-        var el = document.getElementById(id);
-        if (!el) return;
-        el.classList.remove('d-none');
-        el.style.display = '';
-    });
-    // Recalcular (resumen-calculos lo gestiona calcular() internamente)
     if (typeof calcular === 'function') calcular();
 });
 </script>

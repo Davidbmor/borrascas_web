@@ -88,6 +88,15 @@ function firmarPdf(string $originalPdf, string $firmaPng, array $info, string $s
     $firmaImgTag  = '<img src="' . $firmaPng . '" style="max-width:220px;max-height:80px;margin:8px 0 4px auto;display:block;" />';
     $htmlConFirma = str_replace('##FIRMA##', $firmaImgTag, $htmlFuente);
 
+    // Etiqueta del modelo según el informe (M1/M2/M3)
+    $etiquetasModelo = [
+        'M1' => 'Modelo 1 &ndash; Da&ntilde;os en producci&oacute;n ole&iacute;cola',
+        'M2' => 'Modelo 2 &ndash; Evaluaci&oacute;n de da&ntilde;os por borrascas',
+        'M3' => 'Modelo 3 &ndash; Evaluaci&oacute;n de da&ntilde;os en Esp&aacute;rrago',
+    ];
+    $modeloId = strtoupper(trim((string)($info['modelo_id'] ?? 'M1')));
+    $etiquetaModelo = $etiquetasModelo[$modeloId] ?? $etiquetasModelo['M1'];
+
     // Recrear cabecera con logo (misma que procesar.php)
     $logoPath = __DIR__ . '/assets/img/Faeca.png';
     $logoHtml = file_exists($logoPath)
@@ -99,7 +108,7 @@ function firmarPdf(string $originalPdf, string $firmaPng, array $info, string $s
     <td style="width:70px;vertical-align:middle;">' . $logoHtml . '</td>
     <td style="vertical-align:middle;padding-left:10px;">
       <div style="font-size:14px;font-weight:bold;color:#1b4332;letter-spacing:.03em;text-transform:uppercase;">INFORME DE DA&Ntilde;OS POR BORRASCA</div>
-      <div style="font-size:10px;color:#555;margin-top:2px;">Modelo 1 &ndash; Da&ntilde;os en producci&oacute;n ole&iacute;cola &middot; ' . htmlspecialchars(TITULO_CAMPANA) . '</div>
+      <div style="font-size:10px;color:#555;margin-top:2px;">' . $etiquetaModelo . '</div>
     </td>
     <td style="width:80px;text-align:right;vertical-align:top;font-size:9px;color:#888;">' . date('d/m/Y') . '</td>
   </tr>
@@ -150,9 +159,9 @@ try {
             throw new RuntimeException('Debes dibujar la firma antes de guardar.');
         }
 
-        // Determinar directorio del informe (subfolder por DNI si existe)
+        // Determinar directorio del informe (subfolder por DNI/CIF/NIE si existe)
         $carpetaInforme = strtoupper(trim((string)($infoInforme['carpeta'] ?? '')));
-        if ($carpetaInforme !== '' && preg_match('/^[0-9]{8}[A-Z]$/', $carpetaInforme)) {
+        if ($carpetaInforme !== '' && preg_match('/^[0-9A-Z]{5,15}$/', $carpetaInforme)) {
             $dirInforme = INFORMES_DIR . $carpetaInforme . '/';
         } else {
             $dirInforme = INFORMES_DIR;
@@ -222,9 +231,12 @@ require_once __DIR__ . '/includes/header.php';
 
                     <?php if ($infoInforme): ?>
                     <div class="mb-3 p-3 bg-light rounded">
-                        <div><strong>Nombre:</strong> <?= htmlspecialchars((string)($infoInforme['nombre'] ?? '')) ?></div>
-                        <div><strong>DNI:</strong> <?= htmlspecialchars((string)($infoInforme['dni'] ?? '')) ?></div>
+                        <div><strong><?= (($infoInforme['modelo_id'] ?? 'M1') === 'M1') ? 'Nombre' : 'Nombre / Razón Social' ?>:</strong> <?= htmlspecialchars((string)($infoInforme['nombre'] ?? '')) ?></div>
+                        <div><strong><?= (($infoInforme['modelo_id'] ?? 'M1') === 'M1') ? 'DNI' : 'DNI/CIF/NIE' ?>:</strong> <?= htmlspecialchars((string)($infoInforme['dni'] ?? '')) ?></div>
                         <div><strong>Archivo original:</strong> <?= htmlspecialchars($archivo) ?></div>
+                        <?php if (!empty($infoInforme['expediente'])): ?>
+                        <div><strong>Expediente:</strong> <?= htmlspecialchars((string)$infoInforme['expediente']) ?></div>
+                        <?php endif; ?>
                     </div>
 
                     <p class="text-muted mb-2">Dibuja la firma del socio en el recuadro. Al guardar se creará una copia nueva firmada y el original permanecerá intacto.</p>

@@ -179,6 +179,17 @@ if (empty($variedad))      $errores[] = 'La variedad del cultivo es obligatoria.
 if ($supTotal <= 0)        $errores[] = 'La superficie total debe ser mayor que cero.';
 if (empty($sistCultivo))   $errores[] = 'El sistema de cultivo es obligatorio.';
 
+// Datos de valoración económica: obligatorios, sin ellos no hay informe que generar
+if ($prodEstimadaKg <= 0)      $errores[] = 'La producción estimada de la campaña afectada es obligatoria.';
+if ($prodRealKg <= 0)          $errores[] = 'La producción real recolectada es obligatoria.';
+if (!isset($_POST['menor_calidad_valor']) || trim((string)$_POST['menor_calidad_valor']) === '') {
+    $errores[] = 'La producción de menor calidad / destrío es obligatoria (indica 0 si no hubo).';
+}
+if ($prodPrevistaProxKg <= 0)  $errores[] = 'La producción prevista de la próxima campaña es obligatoria.';
+if (!isset($_POST['sobrecostes_extra_eur']) || trim((string)$_POST['sobrecostes_extra_eur']) === '') {
+    $errores[] = 'Los sobrecostes extraordinarios son obligatorios (indica 0 si no hubo).';
+}
+
 if (!empty($errores)) {
     m3_redirect(implode(' ', $errores));
 }
@@ -305,7 +316,7 @@ $headerHtml = '
   <tr>
     <td style="width:65px;vertical-align:middle;">' . $logoHtml . '</td>
     <td style="vertical-align:middle;padding-left:8px;">
-      <div style="font-size:11px;font-weight:bold;color:#1b4332;text-transform:uppercase;">INFORME DE DA&Ntilde;OS POR BORRASCA &middot; MODELO 2</div>
+      <div style="font-size:11px;font-weight:bold;color:#1b4332;text-transform:uppercase;">INFORME DE DA&Ntilde;OS POR BORRASCA &middot; MODELO 3</div>
       <div style="font-size:9px;color:#2d6a4f;font-weight:bold;margin-top:2px;">Expediente: ' . m3_h($numExpediente) . '</div>
       <div style="font-size:8.5px;color:#444;margin-top:1px;">Solicitante: <strong>' . m3_h($razonSocial) . '</strong> (' . m3_h($cifNif) . ')</div>
     </td>
@@ -769,7 +780,7 @@ $mpdf = new \Mpdf\Mpdf([
 $mpdf->SetCompression(true);
 $mpdf->SetHTMLHeader($headerHtml);
 $mpdf->SetHTMLFooter($footerHtml);
-$mpdf->SetTitle('Informe Daños Borrasca M2 – ' . $razonSocial);
+$mpdf->SetTitle('Informe Daños Borrasca M3 – ' . $razonSocial);
 $mpdf->SetAuthor('ACGranada');
 $mpdf->WriteHTML($htmlPDF);
 if (!empty($imagenesBase)) {
@@ -835,7 +846,7 @@ $entrada = [
     'archivo'             => $nombrePDF,
     'carpeta'             => $cifNif,
     'modelo'              => '2',
-    'modelo_id'           => 'M2',
+    'modelo_id'           => 'M3',
     'dni'                 => $cifNif,
     'nombre'              => $razonSocial,
     'razon_social'        => $razonSocial,

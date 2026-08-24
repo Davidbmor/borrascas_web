@@ -131,7 +131,7 @@ define('TRAMITES_EXPEDIENTES_DIR', TRAMITES_DIR . 'expedientes/');
 //  Cambiar la contraseña con: echo password_hash('TuPassword', PASSWORD_DEFAULT);
 // ============================================================
 define('ADMIN_USER',          'admin');
-define('ADMIN_PASSWORD_HASH', password_hash('borrascas2025', PASSWORD_DEFAULT));
+define('ADMIN_PASSWORD_HASH', '$2y$10$dfWkkAKorUuPPmr1ZJinVOaZmPnTf9C3pCZxqBTz2UEX7NeG3Za82');
 
 // ============================================================
 //  LÍMITES DE SUBIDA DE IMÁGENES

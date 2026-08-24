@@ -65,7 +65,7 @@ require_once __DIR__ . '/../includes/header.php';
             <p class="text-muted mb-0"><?= htmlspecialchars(M3_TITULO_CAMPANA) ?> &middot; <?= htmlspecialchars(M3_PROVINCIA) ?></p>
         </div>
         <div class="num-expediente-badge">
-            <i class="bi bi-hash"></i>M2-<?= date('Y') ?>-XXXX
+            <i class="bi bi-hash"></i>M3-<?= date('Y') ?>-XXXX
         </div>
     </div>
 
@@ -88,8 +88,10 @@ require_once __DIR__ . '/../includes/header.php';
     <form id="form-m3" method="POST" action="procesar.php" enctype="multipart/form-data" novalidate>
         <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($csrf) ?>">
 
-        <!-- 1. DATOS DEL SOLICITANTE ════════════════════════════ -->
-        <div id="sec-solicitante" class="card shadow-sm mb-4">
+        <div data-wizard>
+
+        <!-- 1. DATOS DEL SOLICITANTE ════════════════════════ -->
+        <div id="sec-solicitante" class="card shadow-sm mb-4 wizard-step" data-step-title="Datos del solicitante" data-step-icon="bi-building">
             <div class="card-header section-header">
                 <i class="bi bi-building me-2"></i>1. Datos del solicitante (Persona física o Empresa)
             </div>
@@ -184,7 +186,7 @@ require_once __DIR__ . '/../includes/header.php';
         </div>
 
         <!-- 2. OBJETO DEL INFORME ════════════════════════════════ -->
-        <div id="sec-objeto" class="card shadow-sm mb-4">
+        <div id="sec-objeto" class="card shadow-sm mb-4 wizard-step" data-step-title="Objeto del informe" data-step-icon="bi-file-text">
             <div class="card-header section-header">
                 <i class="bi bi-file-text me-2"></i>2. Objeto del informe
             </div>
@@ -212,7 +214,7 @@ require_once __DIR__ . '/../includes/header.php';
         </div>
 
         <!-- 3. DATOS DE LA EXPLOTACIÓN ══════════════════════════ -->
-        <div id="sec-explotacion" class="card shadow-sm mb-4">
+        <div id="sec-explotacion" class="card shadow-sm mb-4 wizard-step" data-step-title="Datos de la explotación" data-step-icon="bi-geo-alt">
             <div class="card-header section-header">
                 <i class="bi bi-geo-alt me-2"></i>3. Datos de la explotación
             </div>
@@ -319,6 +321,7 @@ require_once __DIR__ . '/../includes/header.php';
         </div>
 
         <!-- RESUMEN TÉCNICO EN FORMULARIO (Secciones 4 y 5 fijas) -->
+        <div class="wizard-step" data-step-title="Contexto y daños" data-step-icon="bi-cloud-rain-heavy-fill">
         <div id="sec-contexto" class="card shadow-sm mb-4 bg-light border">
             <div class="card-body p-3 small text-muted">
                 <i class="bi bi-info-circle-fill me-2 text-success"></i>
@@ -403,9 +406,10 @@ require_once __DIR__ . '/../includes/header.php';
                 </div>
             </div>
         </div>
+        </div><!-- /wizard-step contexto-danos -->
 
                 <!-- 7. VALORACIÓN DE DAÑOS Y PÉRDIDA DE RENTA ════════════ -->
-        <div id="sec-valoracion" class="card shadow-sm mb-4">
+        <div id="sec-valoracion" class="card shadow-sm mb-4 wizard-step" data-step-title="Valoración económica" data-step-icon="bi-calculator-fill">
             <div class="card-header section-header">
                 <i class="bi bi-calculator-fill me-2"></i>7. Valoración de daños y pérdida de renta
             </div>
@@ -417,30 +421,30 @@ require_once __DIR__ . '/../includes/header.php';
                 </h6>
                 <div class="row g-3 mb-4">
                     <div class="col-12 col-md-4">
-                        <label class="form-label fw-semibold">Producción estimada (Kg espárrago)</label>
+                        <label class="form-label fw-semibold">Producción estimada (Kg espárrago) <span class="text-danger">*</span></label>
                         <div class="input-group">
-                            <input type="number" name="prod_estimada_kg" class="form-control" placeholder="Ej: 10000" min="0" step="1" value="<?= old('prod_estimada_kg', '', $oldData) ?>">
+                            <input type="number" name="prod_estimada_kg" class="form-control" placeholder="Ej: 10000" required value="<?= old('prod_estimada_kg', '', $oldData) ?>">
                             <span class="input-group-text">Kg</span>
                         </div>
                     </div>
                     <div class="col-12 col-md-4">
-                        <label class="form-label fw-semibold">Producción real recolectada (Kg espárrago)</label>
+                        <label class="form-label fw-semibold">Producción real recolectada (Kg espárrago) <span class="text-danger">*</span></label>
                         <div class="input-group">
-                            <input type="number" name="prod_real_m3_kg" class="form-control" placeholder="Ej: 5000" min="0" step="1" value="<?= old('prod_real_m3_kg', '', $oldData) ?>">
+                            <input type="number" name="prod_real_m3_kg" class="form-control" placeholder="Ej: 5000" required value="<?= old('prod_real_m3_kg', '', $oldData) ?>">
                             <span class="input-group-text">Kg</span>
                         </div>
                     </div>
                     <div class="col-12 col-md-4">
-                        <label class="form-label fw-semibold">Producción de menor calidad / destrío</label>
+                        <label class="form-label fw-semibold">Producción de menor calidad / destrío <span class="text-danger">*</span></label>
                         <div class="input-group">
                             <input type="number" name="menor_calidad_valor" id="menor_calidad_valor" class="form-control"
-                                   placeholder="Ej: 2000" min="0" max="10000000" step="0.01" value="<?= old('menor_calidad_valor', '', $oldData) ?>">
+                                   placeholder="Ej: 2000 (0 si no hubo)" required value="<?= old('menor_calidad_valor', '', $oldData) ?>">
                             <select name="menor_calidad_tipo" id="menor_calidad_tipo" class="form-select" style="max-width:110px;">
                                 <option value="kg" <?= oldSelect('menor_calidad_tipo', 'kg', $oldData, true) ?>>Kilos (Kg)</option>
                                 <option value="pct" <?= oldSelect('menor_calidad_tipo', 'pct', $oldData) ?>>% (Máx. 100%)</option>
                             </select>
                         </div>
-                        <div class="form-text">Turiones deformes o manchados entregados.</div>
+                        <div class="form-text">Turiones deformes o manchados entregados. Indica 0 si no hubo.</div>
                     </div>
                 </div>
 
@@ -450,16 +454,16 @@ require_once __DIR__ . '/../includes/header.php';
                 </h6>
                 <div class="row g-3 mb-4">
                     <div class="col-12 col-md-4">
-                        <label class="form-label fw-semibold">Producción prevista próxima campaña (Kg)</label>
+                        <label class="form-label fw-semibold">Producción prevista próxima campaña (Kg) <span class="text-danger">*</span></label>
                         <div class="input-group">
-                            <input type="number" name="prod_prevista_prox_kg" class="form-control" placeholder="Ej: 10000" min="0" step="1" value="<?= old('prod_prevista_prox_kg', '', $oldData) ?>">
+                            <input type="number" name="prod_prevista_prox_kg" class="form-control" placeholder="Ej: 10000" required value="<?= old('prod_prevista_prox_kg', '', $oldData) ?>">
                             <span class="input-group-text">Kg</span>
                         </div>
                         <div class="form-text">Previsión en caso de que NO hubiese habido borrascas.</div>
                     </div>
                     <div class="col-12 col-md-4">
-                        <label class="form-label fw-semibold">Nivel de afección por inundación / encharcamiento</label>
-                        <select name="nivel_afeccion" class="form-select">
+                        <label class="form-label fw-semibold">Nivel de afección por inundación / encharcamiento <span class="text-danger">*</span></label>
+                        <select name="nivel_afeccion" class="form-select" required>
                             <option value="Baja" <?= oldSelect('nivel_afeccion', 'Baja', $oldData) ?>>Baja (encharcamiento &lt;10 días)</option>
                             <option value="Moderada" <?= oldSelect('nivel_afeccion', 'Moderada', $oldData) ?>>Moderada (encharcamientos repetidos)</option>
                             <option value="Alta" <?= oldSelect('nivel_afeccion', 'Alta', $oldData, true) ?>>Alta (encharcamiento &gt;20-30 días)</option>
@@ -467,8 +471,8 @@ require_once __DIR__ . '/../includes/header.php';
                         </select>
                     </div>
                     <div class="col-12 col-md-4">
-                        <label class="form-label fw-semibold">Drenaje de parcelas inundadas</label>
-                        <select name="drenaje_parcelas" class="form-select">
+                        <label class="form-label fw-semibold">Drenaje de parcelas inundadas <span class="text-danger">*</span></label>
+                        <select name="drenaje_parcelas" class="form-select" required>
                             <option value="Bueno" <?= oldSelect('drenaje_parcelas', 'Bueno', $oldData) ?>>Bueno (arenosos/labrados)</option>
                             <option value="Malo" <?= oldSelect('drenaje_parcelas', 'Malo', $oldData, true) ?>>Malo (arcillosos/compactados)</option>
                         </select>
@@ -481,17 +485,18 @@ require_once __DIR__ . '/../includes/header.php';
                 </h6>
                 <div class="row g-3">
                     <div class="col-12 col-md-6">
-                        <label class="form-label fw-semibold">Sobrecostes extraordinarios de la explotación (€)</label>
+                        <label class="form-label fw-semibold">Sobrecostes extraordinarios de la explotación (€) <span class="text-danger">*</span></label>
                         <div class="input-group">
-                            <input type="number" name="sobrecostes_extra_eur" class="form-control" placeholder="Ej: 2500.00" min="0" step="0.01" value="<?= old('sobrecostes_extra_eur', '', $oldData) ?>">
+                            <input type="number" name="sobrecostes_extra_eur" class="form-control" placeholder="Ej: 2500.00 (0 si no hubo)" required value="<?= old('sobrecostes_extra_eur', '', $oldData) ?>">
                             <span class="input-group-text">€</span>
                         </div>
-                        <div class="form-text">Indica el importe en euros correspondiente a sobrecostes extraordinarios (reposición de marras, fungicidas extras, arreglo de caminos). Deberán estar respaldados por facturas a adjuntar en el siguiente apartado.</div>
+                        <div class="form-text">Indica el importe en euros correspondiente a sobrecostes extraordinarios (reposición de marras, fungicidas extras, arreglo de caminos). 0 si no hubo. Deberán estar respaldados por facturas a adjuntar en el siguiente apartado.</div>
                     </div>
                 </div>
 
             </div>
         </div>
+        <div class="wizard-step" data-step-title="Adjuntos y fotografías" data-step-icon="bi-paperclip">
         <!-- DOCUMENTOS ADJUNTOS / FACTURAS ════════════════════════════ -->
         <div class="card shadow-sm mb-4" id="seccion-adjuntos">
             <div class="card-header section-header">
@@ -529,8 +534,10 @@ require_once __DIR__ . '/../includes/header.php';
                 </div>
             </div>
         </div>
+        </div><!-- /wizard-step adjuntos-fotos -->
 
-        <!-- FIRMA ════════════════════════════════════════════════ -->
+        <!-- FIRMA ══════════════════════════════════════════════ -->
+        <div class="wizard-step" data-step-title="Firma y envío" data-step-icon="bi-pen-fill">
         <div class="card shadow-sm mb-4">
             <div class="card-header section-header bg-white fw-semibold text-dark">
                 <i class="bi bi-pen me-2 text-success"></i>Firma del solicitante <span class="badge bg-secondary ms-2">Opcional</span>
@@ -552,10 +559,13 @@ require_once __DIR__ . '/../includes/header.php';
                 <i class="bi bi-send me-2"></i>Enviar informe
             </button>
         </div>
+        </div><!-- /wizard-step firma-envio -->
+
+        </div><!-- /data-wizard -->
     </form>
 </main>
 
-<!-- MODAL ÉXITO MODELO 2 -->
+<!-- MODAL ÉXITO MODELO 3 -->
 <div class="modal fade" id="modalExitoM3" tabindex="-1" aria-labelledby="modalExitoM3Label" aria-hidden="true" data-bs-backdrop="static">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
@@ -863,7 +873,10 @@ document.getElementById('imagenes-m3').addEventListener('change', function () {
             errEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
         }
     });
+</script>
+<?php endif; ?>
 
+<script>
 // Documentos Adjuntos (Preview / Lista)
 (function() {
     const inputAdjuntos = document.getElementById('adjuntos');
@@ -895,9 +908,8 @@ document.getElementById('imagenes-m3').addEventListener('change', function () {
         });
     });
 })();
-
 </script>
-<?php endif; ?>
+<script src="../assets/js/wizard.js"></script>
 
 </body>
 </html>

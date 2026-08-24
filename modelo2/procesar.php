@@ -180,6 +180,18 @@ if (empty($variedad))      $errores[] = 'La variedad del cultivo es obligatoria.
 if ($supTotal <= 0)        $errores[] = 'La superficie total debe ser mayor que cero.';
 if (empty($sistCultivo))   $errores[] = 'El sistema de cultivo es obligatorio.';
 
+// Datos de valoración económica: obligatorios, sin ellos no hay informe que generar
+if ($prodEstimadaKg <= 0)      $errores[] = 'La producción estimada de la campaña afectada es obligatoria.';
+if ($prodRealKg <= 0)          $errores[] = 'La producción real recolectada es obligatoria.';
+if ($rdtoValUser === null || $rdtoValUser <= 0) $errores[] = 'El rendimiento industrial es obligatorio.';
+if (!isset($_POST['aceituna_suelo_valor']) || trim((string)$_POST['aceituna_suelo_valor']) === '') {
+    $errores[] = 'La aceituna de suelo entregada es obligatoria (indica 0 si no hubo).';
+}
+if ($prodPrevistaProxKg <= 0)  $errores[] = 'La producción prevista de la próxima campaña es obligatoria.';
+if (!isset($_POST['sobrecostes_extra_eur']) || trim((string)$_POST['sobrecostes_extra_eur']) === '') {
+    $errores[] = 'Los sobrecostes extraordinarios son obligatorios (indica 0 si no hubo).';
+}
+
 if (!empty($errores)) {
     m2_redirect(implode(' ', $errores));
 }

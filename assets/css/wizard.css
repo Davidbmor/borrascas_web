@@ -1,0 +1,134 @@
+/* ================================================================
+   WIZARD DE PASOS — reutilizable para todos los modelos de informe
+   ================================================================ */
+
+.wizard-progress {
+    position: sticky;
+    top: 0;
+    z-index: 20;
+    background: #f7faf8;
+    border: 1px solid #dbe8e0;
+    border-radius: .75rem;
+    padding: 1rem 1.25rem .9rem;
+    margin-bottom: 1.5rem;
+    box-shadow: 0 2px 10px rgba(27,67,50,.06);
+}
+
+.wizard-progress-track {
+    display: flex;
+    align-items: flex-start;
+    gap: 0;
+}
+
+.wizard-pill {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: .35rem;
+    background: transparent;
+    border: none;
+    padding: 0 .35rem;
+    cursor: pointer;
+    flex: 1 1 0;
+    min-width: 0;
+}
+
+.wizard-pill:disabled { cursor: not-allowed; }
+
+.wizard-pill-num {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: .8rem;
+    font-weight: 800;
+    background: #e3ece6;
+    color: #7a9485;
+    border: 2px solid #e3ece6;
+    transition: background .15s, color .15s, border-color .15s;
+    flex-shrink: 0;
+}
+
+.wizard-pill-label {
+    font-size: .72rem;
+    font-weight: 600;
+    color: #7a9485;
+    text-align: center;
+    line-height: 1.2;
+    max-width: 110px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.wizard-pill.active .wizard-pill-num {
+    background: #1b4332;
+    border-color: #1b4332;
+    color: #fff;
+}
+.wizard-pill.active .wizard-pill-label { color: #1b4332; }
+
+.wizard-pill.done .wizard-pill-num {
+    background: #d8f3dc;
+    border-color: #2d6a4f;
+    color: #2d6a4f;
+}
+.wizard-pill.done .wizard-pill-label { color: #2d6a4f; }
+
+.wizard-pill.locked { opacity: .5; }
+
+.wizard-line {
+    flex: 0 0 auto;
+    width: 100%;
+    max-width: 60px;
+    height: 2px;
+    background: #e3ece6;
+    margin-top: 15px;
+    align-self: flex-start;
+}
+.wizard-line.done { background: #2d6a4f; }
+
+.wizard-compact-label {
+    display: none;
+    font-size: .82rem;
+    font-weight: 600;
+    color: #3d5244;
+    margin-top: .6rem;
+    text-align: center;
+}
+
+.wizard-step { animation: wizardFadeIn .25s ease; }
+
+@keyframes wizardFadeIn {
+    from { opacity: 0; transform: translateY(6px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+.wizard-nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: .75rem;
+    margin-top: 1.25rem;
+    padding: 1rem 1.25rem 1.25rem;
+    border-top: 1px dashed #dbe8e0;
+}
+
+.wizard-nav .wizard-btn-prev,
+.wizard-nav .wizard-btn-next {
+    font-weight: 700;
+    padding: .55rem 1.4rem;
+    border-radius: .6rem;
+    font-size: .9rem;
+}
+
+.wizard-btn-next { border: none; }
+
+/* Responsive: en pantallas pequeñas mostrar solo el paso actual como texto */
+@media (max-width: 640px) {
+    .wizard-pill-label { display: none; }
+    .wizard-line { max-width: 24px; }
+    .wizard-compact-label { display: block; }
+}
