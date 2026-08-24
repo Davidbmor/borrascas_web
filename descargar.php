@@ -10,19 +10,13 @@ if (empty($_SESSION['admin_ok'])) {
 }
 
 $archivo = basename((string)($_GET['f'] ?? ''));
-$carpeta = basename((string)($_GET['carpeta'] ?? ''));
-$modelo  = strtoupper(trim((string)($_GET['modelo'] ?? 'M1')));
+$carpeta = strtoupper(basename((string)($_GET['carpeta'] ?? '')));
 
 // Validar nombre: solo caracteres seguros y extensión .pdf
-if (!preg_match('/^informe_[A-Z0-9_]+\.pdf$/i', $archivo)) {
+if (!preg_match('/^[a-zA-Z0-9_\-]+\.pdf$/i', $archivo)) {
     http_response_code(400);
     exit('Nombre de archivo inválido.');
 }
-
-// Elegir directorio base según el modelo
-$informesBase = $modelo === 'M2'
-    ? __DIR__ . '/informes2/'
-    : INFORMES_DIR;
 
 // Validar carpeta (DNI / CIF) si se proporciona
 if ($carpeta !== '' && !preg_match('/^[0-9A-Z]{7,12}$/i', $carpeta)) {
@@ -30,19 +24,29 @@ if ($carpeta !== '' && !preg_match('/^[0-9A-Z]{7,12}$/i', $carpeta)) {
     exit('Carpeta inválida.');
 }
 
-// Construir ruta y verificar que queda dentro del directorio base (anti path-traversal)
-$carpeta  = strtoupper($carpeta);
-$dirBase  = $carpeta !== '' ? $informesBase . $carpeta . '/' : $informesBase;
-$rutaReal = realpath($dirBase . $archivo);
-$baseReal = realpath($informesBase);
+// Buscar en INFORMES_DIR y en informes2/
+$directoriosBase = [
+    INFORMES_DIR,
+    __DIR__ . '/informes2/'
+];
 
-if ($rutaReal === false || $baseReal === false
-    || !str_starts_with($rutaReal, $baseReal . DIRECTORY_SEPARATOR)) {
-    http_response_code(403);
-    exit('Acceso denegado.');
+$rutaReal = null;
+
+foreach ($directoriosBase as $baseDir) {
+    if (!is_dir($baseDir)) continue;
+    $baseReal = realpath($baseDir);
+    if ($baseReal === false) continue;
+
+    $targetFile = $carpeta !== '' ? $baseDir . $carpeta . '/' . $archivo : $baseDir . $archivo;
+    $rp = realpath($targetFile);
+
+    if ($rp !== false && is_file($rp) && str_starts_with($rp, $baseReal . DIRECTORY_SEPARATOR)) {
+        $rutaReal = $rp;
+        break;
+    }
 }
 
-if (!is_file($rutaReal)) {
+if (!$rutaReal) {
     http_response_code(404);
     exit('Archivo no encontrado.');
 }

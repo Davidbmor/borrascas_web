@@ -172,9 +172,85 @@ $totalEur = ($perdidasEur ?? 0)
           + $sobrecosteProdEur
           + $variosEur;
 
-// Crear carpeta del usuario (y subcarpeta de imágenes) antes de procesar archivos
+// Cargar registro de informes para resolver Expediente Base y Revisión
+$registroPrevio = [];
+if (file_exists(REGISTRO_JSON)) {
+    $rawPrevio = file_get_contents(REGISTRO_JSON);
+    $registroPrevio = json_decode($rawPrevio, true) ?? [];
+}
+
+
+// ─── RESOLVER EXPEDIENTE Y REVISIÓN PARA MODELO 1 ─────────────────
+function resolver_expediente_m1(array $registro, string $dniCif): array {
+    $año = date('Y');
+    $dniLimpio = strtoupper(trim($dniCif));
+    $expedienteBase = null;
+    $maxRevision = -1;
+
+    foreach ($registro as $item) {
+        $itemDni = strtoupper(trim((string)($item['dni'] ?? $item['cif_nif'] ?? '')));
+        if ($itemDni === $dniLimpio) {
+            if (!empty($item['expediente_base'])) {
+                $expedienteBase = $item['expediente_base'];
+            } elseif (!empty($item['expediente'])) {
+                $parts = explode('_', $item['expediente']);
+                if (count($parts) >= 4 && is_numeric(end($parts)) && strlen(end($parts)) === 2) {
+                    array_pop($parts);
+                    $expedienteBase = implode('_', $parts);
+                } else {
+                    $expedienteBase = $item['expediente'];
+                }
+            }
+            $rev = (int)($item['revision'] ?? 0);
+            if ($rev > $maxRevision) {
+                $maxRevision = $rev;
+            }
+        }
+    }
+
+    if ($expedienteBase !== null) {
+        $nuevaRev = $maxRevision + 1;
+        $revStr   = str_pad((string)$nuevaRev, 2, '0', STR_PAD_LEFT);
+        $expCompleto = $expedienteBase . '_' . $revStr;
+        return [
+            'expediente_base'     => $expedienteBase,
+            'revision'            => $nuevaRev,
+            'expediente_completo' => $expCompleto,
+            'es_revision'         => true,
+        ];
+    } else {
+        $expedientesUnicos = [];
+        foreach ($registro as $item) {
+            $base = $item['expediente_base'] ?? ($item['expediente'] ?? '');
+            if ($base) {
+                $parts = explode('_', $base);
+                if (count($parts) >= 4 && is_numeric(end($parts)) && strlen(end($parts)) === 2) {
+                    array_pop($parts);
+                    $base = implode('_', $parts);
+                }
+                $expedientesUnicos[$base] = true;
+            }
+        }
+        $seq = count($expedientesUnicos) + 1;
+        $expedienteBase = 'Md1_' . $año . '_' . str_pad((string)$seq, 5, '0', STR_PAD_LEFT);
+        return [
+            'expediente_base'     => $expedienteBase,
+            'revision'            => 0,
+            'expediente_completo' => $expedienteBase,
+            'es_revision'         => false,
+        ];
+    }
+}
+
+$expInfo = resolver_expediente_m1($registroPrevio, $dni);
+$numExpediente = $expInfo['expediente_completo'];
+$expedienteBase = $expInfo['expediente_base'];
+$revision = $expInfo['revision'];
+
+// Crear carpeta del usuario (y subcarpeta de imágenes)
 $carpetaUsuario      = INFORMES_DIR . $dni . '/';
-$carpetaImagenesPerm = $carpetaUsuario . 'imagenes/';
+$subfolderNombre     = $expInfo['es_revision'] ? 'imagenes_' . str_pad((string)$revision, 2, '0', STR_PAD_LEFT) : 'imagenes';
+$carpetaImagenesPerm = $carpetaUsuario . $subfolderNombre . '/';
 if (!is_dir($carpetaImagenesPerm)) {
     mkdir($carpetaImagenesPerm, 0755, true);
 }
@@ -994,8 +1070,9 @@ if (!empty($imagenesBase64)) {
     $mpdf->WriteHTML($htmlImagenes);
 }
 
-// Nombre del archivo PDF
-$nombrePDF      = 'informe_' . $dni . '_' . date('Ymd_His') . '.pdf';
+// Nombre del archivo PDF con Nomenclatura de Expediente
+$nombrePDFBase  = $numExpediente;
+$nombrePDF      = $nombrePDFBase . ($firmaInicial ? '_firmado' : '') . '.pdf';
 
 // Carpeta del usuario (una por DNI) dentro de informes/
 $carpetaUsuario = INFORMES_DIR . $dni . '/';
@@ -1015,7 +1092,8 @@ file_put_contents($carpetaUsuario . $nombreHtmlFuente, $htmlFuente, LOCK_EX);
 // Guardar documentos adjuntos en la carpeta del usuario
 $adjuntosGuardados = [];
 if (!empty($adjuntosTmp)) {
-    $carpetaAdj = $carpetaUsuario . 'adjuntos/';
+    $subfolderAdj = $expInfo['es_revision'] ? 'adjuntos_' . str_pad((string)$revision, 2, '0', STR_PAD_LEFT) : 'adjuntos';
+    $carpetaAdj = $carpetaUsuario . $subfolderAdj . '/';
     if (!is_dir($carpetaAdj)) {
         mkdir($carpetaAdj, 0755, true);
     }
@@ -1033,6 +1111,10 @@ if (!empty($adjuntosTmp)) {
 
 // Registrar en JSON
 $entrada = [
+    'expediente'        => $numExpediente,
+    'expediente_base'   => $expedienteBase,
+    'revision'          => $revision,
+    'es_revision'       => $expInfo['es_revision'],
     'archivo'         => $nombrePDF,
     'carpeta'         => $dni,
     'adjuntos'        => $adjuntosGuardados,

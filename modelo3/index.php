@@ -1,6 +1,6 @@
 <?php
 declare(strict_types=1);
-require_once __DIR__ . '/config_m2.php';
+require_once __DIR__ . '/config_m3.php';
 session_start();
 
 if (empty($_SESSION['csrf_token'])) {
@@ -9,9 +9,9 @@ if (empty($_SESSION['csrf_token'])) {
 $csrf = $_SESSION['csrf_token'];
 
 $informeOk = null;
-if (!empty($_SESSION['informe_ok_m2'])) {
-    $informeOk = $_SESSION['informe_ok_m2'];
-    unset($_SESSION['informe_ok_m2']);
+if (!empty($_SESSION['informe_ok_m3'])) {
+    $informeOk = $_SESSION['informe_ok_m3'];
+    unset($_SESSION['informe_ok_m3']);
 }
 
 $formError = null;
@@ -41,8 +41,8 @@ function oldCheck(string $key, string $value, array $data = [], bool $isDefault 
     return $isDefault ? 'checked' : '';
 }
 
-$pageTitle  = 'Modelo 2 – Evaluación de Daños por Borrascas';
-$modelLabel = M2_LABEL . ' – ' . M2_TITULO;
+$pageTitle  = 'Modelo 3 – Evaluación de Daños por Borrascas';
+$modelLabel = M3_LABEL . ' – ' . M3_TITULO;
 $backUrl    = '../landing.php';
 $assetBase  = '../';
 require_once __DIR__ . '/../includes/header.php';
@@ -62,7 +62,7 @@ require_once __DIR__ . '/../includes/header.php';
     <div class="d-flex align-items-start justify-content-between flex-wrap gap-3 mb-3">
         <div>
             <h2 class="h4 fw-bold mb-1">Informe Técnico: Evaluación de Daños por Borrascas</h2>
-            <p class="text-muted mb-0"><?= htmlspecialchars(M2_TITULO_CAMPANA) ?> &middot; <?= htmlspecialchars(M2_PROVINCIA) ?></p>
+            <p class="text-muted mb-0"><?= htmlspecialchars(M3_TITULO_CAMPANA) ?> &middot; <?= htmlspecialchars(M3_PROVINCIA) ?></p>
         </div>
         <div class="num-expediente-badge">
             <i class="bi bi-hash"></i>M2-<?= date('Y') ?>-XXXX
@@ -85,7 +85,7 @@ require_once __DIR__ . '/../includes/header.php';
         </ol>
     </div>
 
-    <form id="form-m2" method="POST" action="procesar.php" enctype="multipart/form-data" novalidate>
+    <form id="form-m3" method="POST" action="procesar.php" enctype="multipart/form-data" novalidate>
         <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($csrf) ?>">
 
         <!-- 1. DATOS DEL SOLICITANTE ════════════════════════════ -->
@@ -161,13 +161,13 @@ require_once __DIR__ . '/../includes/header.php';
                     </div>
                     <div class="col-12 col-md-5">
                         <label class="form-label fw-semibold">Provincia <span class="text-danger">*</span></label>
-                        <select name="provincia" id="m2-provincia" class="form-select" required data-saved="<?= old('provincia', '', $oldData) ?>">
+                        <select name="provincia" id="m3-provincia" class="form-select" required data-saved="<?= old('provincia', '', $oldData) ?>">
                             <option value="">Cargando provincias…</option>
                         </select>
                     </div>
                     <div class="col-12 col-md-5">
                         <label class="form-label fw-semibold">Municipio <span class="text-danger">*</span></label>
-                        <select name="municipio" id="m2-municipio" class="form-select" required disabled data-saved="<?= old('municipio', '', $oldData) ?>">
+                        <select name="municipio" id="m3-municipio" class="form-select" required disabled data-saved="<?= old('municipio', '', $oldData) ?>">
                             <option value="">Selecciona primero una provincia…</option>
                         </select>
                     </div>
@@ -225,13 +225,13 @@ require_once __DIR__ . '/../includes/header.php';
                     </div>
                     <div class="col-12 col-md-4">
                         <label class="form-label fw-semibold">Provincia <span class="text-danger">*</span></label>
-                        <select name="exp_provincia" id="m2-exp-provincia" class="form-select" required data-saved="<?= old('exp_provincia', '', $oldData) ?>">
+                        <select name="exp_provincia" id="m3-exp-provincia" class="form-select" required data-saved="<?= old('exp_provincia', '', $oldData) ?>">
                             <option value="">Cargando…</option>
                         </select>
                     </div>
                     <div class="col-12 col-md-4">
                         <label class="form-label fw-semibold">Municipio <span class="text-danger">*</span></label>
-                        <select name="exp_municipio" id="m2-exp-municipio" class="form-select" required disabled data-saved="<?= old('exp_municipio', '', $oldData) ?>">
+                        <select name="exp_municipio" id="m3-exp-municipio" class="form-select" required disabled data-saved="<?= old('exp_municipio', '', $oldData) ?>">
                             <option value="">Primero elige provincia…</option>
                         </select>
                     </div>
@@ -245,13 +245,13 @@ require_once __DIR__ . '/../includes/header.php';
                 <div class="row g-3 mb-3">
                     <div class="col-12 col-md-3">
                         <label class="form-label fw-semibold">Cultivo</label>
-                        <input type="text" class="form-control bg-light" value="Olivar" readonly>
-                        <input type="hidden" name="cultivo" value="Olivar">
+                        <input type="text" class="form-control bg-light" value="Espárrago Verde" readonly>
+                        <input type="hidden" name="cultivo" value="Espárrago Verde">
                     </div>
                     <div class="col-12 col-md-5">
                         <label class="form-label fw-semibold">Variedad <span class="text-danger">*</span></label>
                         <input type="text" name="variedad" class="form-control" required value="<?= old('variedad', '', $oldData) ?>"
-                               placeholder="Ej: Picual, Hojiblanca, Picudo…">
+                               placeholder="">
                     </div>
                     <div class="col-12 col-md-4">
                         <label class="form-label fw-semibold">Edad del cultivo (años)</label>
@@ -271,7 +271,7 @@ require_once __DIR__ . '/../includes/header.php';
                         <label class="form-label fw-semibold">Sistema secano</label>
                         <select name="sup_secano_tipo" class="form-select">
                             <option value="">Seleccionar…</option>
-                            <?php foreach (M2_SISTEMAS_CULTIVO as $k => $v): ?>
+                            <?php foreach (M3_SISTEMAS_CULTIVO as $k => $v): ?>
                                 <option value="<?= $k ?>" <?= oldSelect('sup_secano_tipo', $k, $oldData) ?>><?= htmlspecialchars($v) ?></option>
                             <?php endforeach; ?>
                         </select>
@@ -285,7 +285,7 @@ require_once __DIR__ . '/../includes/header.php';
                         <label class="form-label fw-semibold">Sistema regadío</label>
                         <select name="sup_regadio_tipo" class="form-select">
                             <option value="">Seleccionar…</option>
-                            <?php foreach (M2_SISTEMAS_CULTIVO as $k => $v): ?>
+                            <?php foreach (M3_SISTEMAS_CULTIVO as $k => $v): ?>
                                 <option value="<?= $k ?>" <?= oldSelect('sup_regadio_tipo', $k, $oldData) ?>><?= htmlspecialchars($v) ?></option>
                             <?php endforeach; ?>
                         </select>
@@ -309,7 +309,7 @@ require_once __DIR__ . '/../includes/header.php';
                         <label class="form-label fw-semibold">Sistema de cultivo <span class="text-danger">*</span></label>
                         <select name="sistema_cultivo" class="form-select" required>
                             <option value="">Seleccionar…</option>
-                            <?php foreach (M2_SISTEMAS_CULTIVO as $k => $v): ?>
+                            <?php foreach (M3_SISTEMAS_CULTIVO as $k => $v): ?>
                                 <option value="<?= $k ?>" <?= oldSelect('sistema_cultivo', $k, $oldData) ?>><?= htmlspecialchars($v) ?></option>
                             <?php endforeach; ?>
                         </select>
@@ -351,25 +351,25 @@ require_once __DIR__ . '/../includes/header.php';
                     <div class="col-12 col-md-6">
                         <div class="form-check">
                             <input class="form-check-input" type="checkbox" name="danos_agronimicos[]" value="Caída de fruto" id="d3" <?= oldCheck('danos_agronimicos', 'Caída de fruto', $oldData, true) ?>>
-                            <label class="form-check-label" for="d3">Caída masiva de fruto al suelo</label>
+                            <label class="form-check-label" for="d3">Brotación prematura con turiones deformes</label>
                         </div>
                     </div>
                     <div class="col-12 col-md-6">
                         <div class="form-check">
                             <input class="form-check-input" type="checkbox" name="danos_agronimicos[]" value="Necrosis" id="d4" <?= oldCheck('danos_agronimicos', 'Necrosis', $oldData) ?>>
-                            <label class="form-check-label" for="d4">Necrosis o deterioro en fruto</label>
+                            <label class="form-check-label" for="d4">Pérdida de garra por asfixia y podredumbre</label>
                         </div>
                     </div>
                     <div class="col-12 col-md-6">
                         <div class="form-check">
                             <input class="form-check-input" type="checkbox" name="danos_agronimicos[]" value="Plagas y enfermedades" id="d5" <?= oldCheck('danos_agronimicos', 'Plagas y enfermedades', $oldData, true) ?>>
-                            <label class="form-check-label" for="d5">Aparición de plagas y enfermedades (hongos/asfixia)</label>
+                            <label class="form-check-label" for="d5">Aparición de hongos (Fusarium spp., Phytophthora spp.)</label>
                         </div>
                     </div>
                     <div class="col-12 col-md-6">
                         <div class="form-check">
                             <input class="form-check-input" type="checkbox" name="danos_agronimicos[]" value="Daños en árboles" id="d6" <?= oldCheck('danos_agronimicos', 'Daños en árboles', $oldData) ?>>
-                            <label class="form-check-label" for="d6">Rotura de ramas, árboles arrancados o defoliación</label>
+                            <label class="form-check-label" for="d6">Retraso o pérdida del primer corte de primavera</label>
                         </div>
                     </div>
                 </div>
@@ -416,43 +416,31 @@ require_once __DIR__ . '/../includes/header.php';
                     <i class="bi bi-calendar-event me-1"></i>Campaña 2025/2026 (Campaña Afectada Actual)
                 </h6>
                 <div class="row g-3 mb-4">
-                    <div class="col-12 col-md-6 col-lg-3">
-                        <label class="form-label fw-semibold">Producción estimada (Kg aceituna)</label>
+                    <div class="col-12 col-md-4">
+                        <label class="form-label fw-semibold">Producción estimada (Kg espárrago)</label>
                         <div class="input-group">
-                            <input type="number" name="prod_estimada_kg" class="form-control" placeholder="Ej: 60000" min="0" step="1" value="<?= old('prod_estimada_kg', '', $oldData) ?>">
+                            <input type="number" name="prod_estimada_kg" class="form-control" placeholder="Ej: 10000" min="0" step="1" value="<?= old('prod_estimada_kg', '', $oldData) ?>">
                             <span class="input-group-text">Kg</span>
                         </div>
                     </div>
-                    <div class="col-12 col-md-6 col-lg-3">
-                        <label class="form-label fw-semibold">Producción real recolectada (Kg aceituna)</label>
+                    <div class="col-12 col-md-4">
+                        <label class="form-label fw-semibold">Producción real recolectada (Kg espárrago)</label>
                         <div class="input-group">
-                            <input type="number" name="prod_real_m2_kg" class="form-control" placeholder="Ej: 35000" min="0" step="1" value="<?= old('prod_real_m2_kg', '', $oldData) ?>">
+                            <input type="number" name="prod_real_m3_kg" class="form-control" placeholder="Ej: 5000" min="0" step="1" value="<?= old('prod_real_m3_kg', '', $oldData) ?>">
                             <span class="input-group-text">Kg</span>
                         </div>
                     </div>
-                    <div class="col-12 col-md-6 col-lg-3">
-                        <label class="form-label fw-semibold">Rendimiento industrial</label>
+                    <div class="col-12 col-md-4">
+                        <label class="form-label fw-semibold">Producción de menor calidad / destrío</label>
                         <div class="input-group">
-                            <input type="number" name="rendimiento_valor" id="rendimiento_valor" class="form-control"
-                                   placeholder="Ej: 20" min="0" max="100" step="0.01" value="<?= old('rendimiento_valor', '', $oldData) ?>">
-                            <select name="rendimiento_tipo" id="rendimiento_tipo" class="form-select" style="max-width:120px;">
-                                <option value="pct" <?= oldSelect('rendimiento_tipo', 'pct', $oldData, true) ?>>% (Porcentaje)</option>
-                                <option value="kg_aceite" <?= oldSelect('rendimiento_tipo', 'kg_aceite', $oldData) ?>>Kg Aceite</option>
+                            <input type="number" name="menor_calidad_valor" id="menor_calidad_valor" class="form-control"
+                                   placeholder="Ej: 2000" min="0" max="10000000" step="0.01" value="<?= old('menor_calidad_valor', '', $oldData) ?>">
+                            <select name="menor_calidad_tipo" id="menor_calidad_tipo" class="form-select" style="max-width:110px;">
+                                <option value="kg" <?= oldSelect('menor_calidad_tipo', 'kg', $oldData, true) ?>>Kilos (Kg)</option>
+                                <option value="pct" <?= oldSelect('menor_calidad_tipo', 'pct', $oldData) ?>>% (Máx. 100%)</option>
                             </select>
                         </div>
-                        <div class="form-text">Si se deja en blanco, se aplica el 20,00% por defecto. Máx. 100%.</div>
-                    </div>
-                    <div class="col-12 col-md-6 col-lg-3">
-                        <label class="form-label fw-semibold">Aceituna de suelo entregada</label>
-                        <div class="input-group">
-                            <input type="number" name="aceituna_suelo_valor" id="aceituna_suelo_valor" class="form-control"
-                                   placeholder="Ej: 15000" min="0" max="10000000" step="0.01" value="<?= old('aceituna_suelo_valor', '', $oldData) ?>">
-                            <select name="aceituna_suelo_tipo" id="aceituna_suelo_tipo" class="form-select" style="max-width:110px;">
-                                <option value="kg" <?= oldSelect('aceituna_suelo_tipo', 'kg', $oldData, true) ?>>Kilos (Kg)</option>
-                                <option value="pct" <?= oldSelect('aceituna_suelo_tipo', 'pct', $oldData) ?>>% (Máx. 100%)</option>
-                            </select>
-                        </div>
-                        <div class="form-text">Aceituna cogida del suelo y llevada a almazara.</div>
+                        <div class="form-text">Turiones deformes o manchados entregados.</div>
                     </div>
                 </div>
 
@@ -462,9 +450,9 @@ require_once __DIR__ . '/../includes/header.php';
                 </h6>
                 <div class="row g-3 mb-4">
                     <div class="col-12 col-md-4">
-                        <label class="form-label fw-semibold">Producción prevista próxima campaña (Kg aceituna)</label>
+                        <label class="form-label fw-semibold">Producción prevista próxima campaña (Kg)</label>
                         <div class="input-group">
-                            <input type="number" name="prod_prevista_prox_kg" class="form-control" placeholder="Ej: 60000" min="0" step="1" value="<?= old('prod_prevista_prox_kg', '', $oldData) ?>">
+                            <input type="number" name="prod_prevista_prox_kg" class="form-control" placeholder="Ej: 10000" min="0" step="1" value="<?= old('prod_prevista_prox_kg', '', $oldData) ?>">
                             <span class="input-group-text">Kg</span>
                         </div>
                         <div class="form-text">Previsión en caso de que NO hubiese habido borrascas.</div>
@@ -481,8 +469,8 @@ require_once __DIR__ . '/../includes/header.php';
                     <div class="col-12 col-md-4">
                         <label class="form-label fw-semibold">Drenaje de parcelas inundadas</label>
                         <select name="drenaje_parcelas" class="form-select">
-                            <option value="Bueno" <?= oldSelect('drenaje_parcelas', 'Bueno', $oldData) ?>>Bueno (evacua en pocos días)</option>
-                            <option value="Malo" <?= oldSelect('drenaje_parcelas', 'Malo', $oldData, true) ?>>Malo (encharcamiento persistente)</option>
+                            <option value="Bueno" <?= oldSelect('drenaje_parcelas', 'Bueno', $oldData) ?>>Bueno (arenosos/labrados)</option>
+                            <option value="Malo" <?= oldSelect('drenaje_parcelas', 'Malo', $oldData, true) ?>>Malo (arcillosos/compactados)</option>
                         </select>
                     </div>
                 </div>
@@ -498,14 +486,13 @@ require_once __DIR__ . '/../includes/header.php';
                             <input type="number" name="sobrecostes_extra_eur" class="form-control" placeholder="Ej: 2500.00" min="0" step="0.01" value="<?= old('sobrecostes_extra_eur', '', $oldData) ?>">
                             <span class="input-group-text">€</span>
                         </div>
-                        <div class="form-text">Indica el importe en euros correspondiente a sobrecostes extraordinarios sufridos. Estos sobrecostes deberán estar respaldados por facturas o justificantes de gasto a adjuntar en el siguiente apartado.</div>
+                        <div class="form-text">Indica el importe en euros correspondiente a sobrecostes extraordinarios (reposición de marras, fungicidas extras, arreglo de caminos). Deberán estar respaldados por facturas a adjuntar en el siguiente apartado.</div>
                     </div>
                 </div>
 
             </div>
         </div>
-
-                <!-- DOCUMENTOS ADJUNTOS / FACTURAS ════════════════════════════ -->
+        <!-- DOCUMENTOS ADJUNTOS / FACTURAS ════════════════════════════ -->
         <div class="card shadow-sm mb-4" id="seccion-adjuntos">
             <div class="card-header section-header">
                 <i class="bi bi-paperclip me-2"></i>Documentos adjuntos y facturas
@@ -533,10 +520,10 @@ require_once __DIR__ . '/../includes/header.php';
             </div>
             <div class="card-body p-4">
                 <p class="text-muted mb-3">Adjunta fotografías que acrediten los daños visibles en la explotación (opcional).</p>
-                <input type="file" name="imagenes[]" id="imagenes-m2"
+                <input type="file" name="imagenes[]" id="imagenes-m3"
                        class="form-control mb-3"
                        accept="image/jpeg,image/png,image/webp" multiple>
-                <div id="preview-imagenes-m2" class="d-flex flex-wrap gap-2"></div>
+                <div id="preview-imagenes-m3" class="d-flex flex-wrap gap-2"></div>
                 <div class="form-text mt-2">
                     Máximo <?= MAX_IMAGENES ?> imágenes · hasta <?= number_format(MAX_TAMANO_IMG / 1048576, 0) ?> MB cada una.
                 </div>
@@ -550,10 +537,10 @@ require_once __DIR__ . '/../includes/header.php';
             </div>
             <div class="card-body p-4 text-center">
                 <p class="text-muted small mb-3">Si el solicitante firma ahora, el documento se guardará firmado. Si no, se podrá firmar después desde el panel de administración.</p>
-                <canvas id="firma-canvas-m2"
+                <canvas id="firma-canvas-m3"
                         style="width:100%;max-width:700px;height:180px;border:2px solid #c3dac8;border-radius:.5rem;background:#fff;cursor:crosshair;touch-action:none;display:block;margin:0 auto;"></canvas>
-                <input type="hidden" name="firma_data" id="firma_data_m2">
-                <button type="button" class="btn btn-outline-secondary btn-sm mt-3" id="limpiar-firma-m2">
+                <input type="hidden" name="firma_data" id="firma_data_m3">
+                <button type="button" class="btn btn-outline-secondary btn-sm mt-3" id="limpiar-firma-m3">
                     <i class="bi bi-eraser me-1"></i>Limpiar firma
                 </button>
             </div>
@@ -561,7 +548,7 @@ require_once __DIR__ . '/../includes/header.php';
 
         <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mt-2">
             <div class="text-muted small">Los campos con <span class="text-danger">*</span> son obligatorios.</div>
-            <button type="submit" class="btn btn-primary btn-lg px-5" id="btn-enviar-m2">
+            <button type="submit" class="btn btn-primary btn-lg px-5" id="btn-enviar-m3">
                 <i class="bi bi-send me-2"></i>Enviar informe
             </button>
         </div>
@@ -569,7 +556,7 @@ require_once __DIR__ . '/../includes/header.php';
 </main>
 
 <!-- MODAL ÉXITO MODELO 2 -->
-<div class="modal fade" id="modalExitoM2" tabindex="-1" aria-labelledby="modalExitoM2Label" aria-hidden="true" data-bs-backdrop="static">
+<div class="modal fade" id="modalExitoM3" tabindex="-1" aria-labelledby="modalExitoM3Label" aria-hidden="true" data-bs-backdrop="static">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-body text-center py-5 px-4">
@@ -657,8 +644,8 @@ function vincularGeo(provSel, munSel) {
     });
 }
 
-vincularGeo(document.getElementById('m2-provincia'),     document.getElementById('m2-municipio'));
-vincularGeo(document.getElementById('m2-exp-provincia'), document.getElementById('m2-exp-municipio'));
+vincularGeo(document.getElementById('m3-provincia'),     document.getElementById('m3-municipio'));
+vincularGeo(document.getElementById('m3-exp-provincia'), document.getElementById('m3-exp-municipio'));
 
 // Superficies
 function calcSup() {
@@ -674,8 +661,8 @@ calcSup();
 
 // Canvas firma (opcional)
 (function () {
-    const canvas = document.getElementById('firma-canvas-m2');
-    const hidden = document.getElementById('firma_data_m2');
+    const canvas = document.getElementById('firma-canvas-m3');
+    const hidden = document.getElementById('firma_data_m3');
     const ctx = canvas.getContext('2d');
     let drawing = false, hasInk = false;
 
@@ -715,27 +702,27 @@ calcSup();
     canvas.addEventListener('touchmove', move, { passive: false });
     canvas.addEventListener('touchend', stop);
 
-    document.getElementById('limpiar-firma-m2').addEventListener('click', () => {
+    document.getElementById('limpiar-firma-m3').addEventListener('click', () => {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         hidden.value = '';
         hasInk = false;
     });
 
-    document.getElementById('form-m2').addEventListener('submit', function (e) {
+    document.getElementById('form-m3').addEventListener('submit', function (e) {
         if (hasInk) {
             hidden.value = canvas.toDataURL('image/png');
         } else {
             hidden.value = '';
         }
-        const btn = document.getElementById('btn-enviar-m2');
+        const btn = document.getElementById('btn-enviar-m3');
         btn.disabled = true;
         btn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>Enviando informe…';
     });
 })();
 
 // Preview imágenes
-document.getElementById('imagenes-m2').addEventListener('change', function () {
-    const wrap = document.getElementById('preview-imagenes-m2');
+document.getElementById('imagenes-m3').addEventListener('change', function () {
+    const wrap = document.getElementById('preview-imagenes-m3');
     wrap.innerHTML = '';
     Array.from(this.files).forEach(f => {
         const reader = new FileReader();
@@ -858,10 +845,10 @@ document.getElementById('imagenes-m2').addEventListener('change', function () {
 <?php if ($informeOk): ?>
 <script>
     document.addEventListener('DOMContentLoaded', () => {
-        const modal = new bootstrap.Modal(document.getElementById('modalExitoM2'));
+        const modal = new bootstrap.Modal(document.getElementById('modalExitoM3'));
         modal.show();
-        document.getElementById('modalExitoM2').addEventListener('hidden.bs.modal', () => {
-            document.getElementById('form-m2').reset();
+        document.getElementById('modalExitoM3').addEventListener('hidden.bs.modal', () => {
+            document.getElementById('form-m3').reset();
             window.location.href = 'index.php';
         });
     });

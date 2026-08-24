@@ -24,6 +24,16 @@ $modelos = [
         'icono'       => 'bi-file-earmark-bar-graph',
         'color'       => 'primary',
     ],
+    [
+        'id'          => 'modelo3',
+        'titulo'      => 'Modelo 3 - Evaluación de daños en Espárrago',
+        'campana'     => 'Campaña 2026',
+        'descripcion' => 'Informe técnico completo con datos de explotación, metodología y valoración económica de daños para el cultivo del Espárrago Verde.',
+        'url'         => 'modelo3/index.php',
+        'activo'      => true,
+        'icono'       => 'bi-flower1',
+        'color'       => 'success',
+    ],
 ];
 
 $pageTitle  = 'Informes de Danos por Borrasca - ACGranada';
@@ -33,11 +43,7 @@ $assetBase  = '';
 require_once __DIR__ . '/includes/header.php';
 ?>
 
-<div class="landing-hero">
-    <div class="container py-3">
-        <p class="lead mb-0" style="color:rgba(255,255,255,.85);">Selecciona el tipo de informe que deseas tramitar.</p>
-    </div>
-</div>
+
 
 <div class="container py-5">
     <div class="row g-4 justify-content-center">

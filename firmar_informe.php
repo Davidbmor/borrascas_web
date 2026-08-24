@@ -12,7 +12,7 @@ if (empty($_SESSION['admin_ok'])) {
 function extraerArchivoPdf(string $archivo): string
 {
     $archivo = basename($archivo);
-    if (!preg_match('/^informe_[A-Z0-9_]+\.pdf$/i', $archivo)) {
+    if (!preg_match('/^[a-zA-Z0-9_\-]+\.pdf$/i', $archivo)) {
         throw new RuntimeException('Nombre de archivo inválido.');
     }
     return $archivo;
@@ -46,7 +46,7 @@ function buscarInformePorArchivo(array $registro, string $archivo): ?array
 
 function crearRutaFirmada(string $archivoOriginal): string
 {
-    return preg_replace('/\.pdf$/i', '_firmado.pdf', $archivoOriginal) ?: ($archivoOriginal . '_firmado.pdf');
+    return preg_replace('/\.pdf$/i', '_firmado.pdf', $archivoOriginal);
 }
 
 function crearImagenTemporalDesdeBase64(string $dataUri): string
@@ -199,27 +199,19 @@ try {
 } catch (Throwable $e) {
     $error = $e->getMessage();
 }
+
+$pageTitle  = 'Firmar informe – Borrascas';
+$modelLabel = '';
+$backUrl    = 'admin.php';
+$assetBase  = '';
+require_once __DIR__ . '/includes/header.php';
 ?>
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Firmar informe – Borrascas</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-    <style>
-        body { background: #f0f4f0; }
-        .site-card { border-radius: .8rem; box-shadow: 0 6px 20px rgba(0,0,0,.08); }
-        #firma-canvas { width: 100%; max-width: 800px; border: 2px solid #cfd8d3; border-radius: 8px; touch-action: none; background: #fff; }
-    </style>
-</head>
-<body>
+
 <main class="container py-4">
     <div class="row justify-content-center">
         <div class="col-lg-10 col-xl-8">
-            <div class="card site-card">
-                <div class="card-header bg-white fw-semibold d-flex align-items-center justify-content-between">
+            <div class="card shadow-sm border-0">
+                <div class="card-header bg-white fw-semibold d-flex align-items-center justify-content-between py-3">
                     <span><i class="bi bi-pen-fill me-2 text-success"></i>Firmar informe</span>
                     <a href="admin.php" class="btn btn-sm btn-outline-secondary">Volver</a>
                 </div>
@@ -241,7 +233,7 @@ try {
                         <input type="hidden" name="archivo" value="<?= htmlspecialchars($archivo) ?>">
                         <input type="hidden" name="firma_data" id="firma_data">
                         <div class="mb-3">
-                            <canvas id="firma-canvas" width="800" height="220"></canvas>
+                            <canvas id="firma-canvas" width="800" height="220" style="width:100%; border:2px solid #cfd8d3; border-radius:8px; touch-action:none; background:#fff;"></canvas>
                         </div>
                         <div class="d-flex gap-2">
                             <button type="button" class="btn btn-outline-secondary" id="btn-limpiar"><i class="bi bi-eraser me-1"></i>Limpiar</button>
