@@ -4,10 +4,11 @@
  * Recibe el formulario, valida, calcula y genera el PDF con Dompdf.
  */
 declare(strict_types=1);
-ini_set('memory_limit', '1024M');
+ini_set('memory_limit', '2048M');
 session_start();
 require_once __DIR__ . '/../config.php';
 require_once __DIR__ . '/../vendor/autoload.php';
+require_once __DIR__ . '/../includes/informe_estructura.php';
 
 // ──────────────────────────────────────────────────────────────
 // HELPERS
@@ -511,10 +512,10 @@ $headerHtml = '
   <tr>
     <td style="width:70px;vertical-align:middle;">' . $logoHtml . '</td>
     <td style="vertical-align:middle;padding-left:10px;">
-      <div style="font-size:14px;font-weight:bold;color:#1b4332;letter-spacing:.03em;text-transform:uppercase;">INFORME DE DA&Ntilde;OS POR BORRASCA</div>
-      <div style="font-size:10px;color:#555;margin-top:2px;">Modelo 1 &ndash; Da&ntilde;os en producci&oacute;n ole&iacute;cola &middot; ' . htmlspecialchars(TITULO_CAMPANA) . '</div>
+      <div style="font-size:16px;font-weight:bold;color:#1b4332;letter-spacing:.03em;text-transform:uppercase;">INFORME DE DA&Ntilde;OS POR BORRASCA</div>
+      <div style="font-size:12px;color:#555;margin-top:2px;">Modelo 1 &ndash; Da&ntilde;os en producci&oacute;n ole&iacute;cola &middot; ' . htmlspecialchars(TITULO_CAMPANA) . '</div>
     </td>
-    <td style="width:80px;text-align:right;vertical-align:top;font-size:9px;color:#888;">' . $fechaHoy . '</td>
+    <td style="width:80px;text-align:right;vertical-align:top;font-size:11px;color:#888;">' . $fechaHoy . '</td>
   </tr>
 </table>';
 
@@ -527,7 +528,7 @@ $htmlPDF = <<<HTML
   * { box-sizing: border-box; }
   body {
     font-family: DejaVu Sans, Helvetica, Arial, sans-serif;
-    font-size: 11px;
+    font-size:13px;
     color: #2c2c2c;
     margin: 0;
     padding: 0;
@@ -550,19 +551,19 @@ $htmlPDF = <<<HTML
     overflow: hidden;
   }
   .cabecera h1 {
-    font-size: 17px;
+    font-size:19px;
     color: #1b4332;
     margin: 4px 0 2px 0;
     letter-spacing: .03em;
   }
   .cabecera h2 {
-    font-size: 12px;
+    font-size:14px;
     color: #555;
     margin: 0;
     font-weight: normal;
   }
   .fecha {
-    font-size: 10px;
+    font-size:12px;
     color: #888;
     float: right;
     margin-top: 6px;
@@ -574,7 +575,7 @@ $htmlPDF = <<<HTML
     color: #1a1a1a;
     border-bottom: 2px solid #1a1a1a;
     padding: 3px 0;
-    font-size: 12px;
+    font-size:14px;
     font-weight: bold;
     letter-spacing: .08em;
     text-transform: uppercase;
@@ -586,7 +587,7 @@ $htmlPDF = <<<HTML
     width: 100%;
     border-collapse: collapse;
     margin-bottom: 5px;
-    font-size: 11px;
+    font-size:13px;
   }
   td, th {
     border: none;
@@ -600,7 +601,7 @@ $htmlPDF = <<<HTML
     background: none;
     color: #1a1a1a;
     font-weight: bold;
-    font-size: 10px;
+    font-size:12px;
     letter-spacing: .04em;
     text-transform: uppercase;
   }
@@ -637,7 +638,7 @@ $htmlPDF = <<<HTML
   .fila-total td {
     background: #ffffff !important;
     font-weight: bold;
-    font-size: 10.5px;
+    font-size:12.5px;
     border-top: 2px solid #333 !important;
     border-bottom: 2px solid #333 !important;
     color: #000;
@@ -652,7 +653,7 @@ $htmlPDF = <<<HTML
     page-break-after: always;
   }
   .intro-titulo-principal {
-    font-size: 13px;
+    font-size:15px;
     font-weight: bold;
     color: #111;
     text-align: center;
@@ -662,7 +663,7 @@ $htmlPDF = <<<HTML
     line-height: 1.4;
   }
   .intro-subtitulo {
-    font-size: 10.5px;
+    font-size:12.5px;
     color: #555;
     text-align: center;
     margin: 0 0 12px 0;
@@ -670,7 +671,7 @@ $htmlPDF = <<<HTML
     padding-bottom: 8px;
   }
   .intro-seccion {
-    font-size: 11px;
+    font-size:13px;
     font-weight: bold;
     color: #111;
     text-transform: uppercase;
@@ -680,7 +681,7 @@ $htmlPDF = <<<HTML
     padding-bottom: 2px;
   }
   .intro-parrafo {
-    font-size: 10.5px;
+    font-size:12.5px;
     color: #222;
     margin: 0 0 5px 0;
     line-height: 1.5;
@@ -689,14 +690,14 @@ $htmlPDF = <<<HTML
   .intro-lista {
     margin: 2px 0 5px 18px;
     padding: 0;
-    font-size: 10.5px;
+    font-size:12.5px;
     color: #222;
     line-height: 1.5;
   }
   .intro-tabla {
     width: 100%;
     border-collapse: collapse;
-    font-size: 10px;
+    font-size:12px;
     margin: 4px 0 6px 0;
   }
   .intro-tabla th {
@@ -722,7 +723,7 @@ $htmlPDF = <<<HTML
     color: #111;
   }
   .intro-nota {
-    font-size: 9.5px;
+    font-size:11.5px;
     color: #777;
     font-style: italic;
     margin: 3px 0 0 0;
@@ -732,7 +733,7 @@ $htmlPDF = <<<HTML
   .firma-bloque {
     margin-top: 28px;
     text-align: right;
-    font-size: 11px;
+    font-size:13px;
     color: #555;
   }
   .firma-linea {
@@ -743,6 +744,8 @@ $htmlPDF = <<<HTML
 </style>
 </head>
 <body>
+
+{PORTADA_INDICE}
 
 <!-- INTRODUCCIÓN DEL INFORME -->
 <div class="intro-bloque">
@@ -926,6 +929,25 @@ $htmlPDF = <<<HTML
 </html>
 HTML;
 
+// Portada e índice (página 1 y 2 del PDF), sin cabecera de página
+$portadaIndiceHtml = pa_generar_portada_indice([
+    'logo_cover_path' => realpath(__DIR__ . '/../assets/img/FaecaAGRO360Transparente.png') ?: '',
+    'solicitante'     => $nombre,
+    'documento'       => $dni,
+    'fecha'           => $fechaHoy,
+    'indice'          => [
+        'Objeto del informe',
+        'Introducci&oacute;n y contexto meteorol&oacute;gico',
+        'Metodolog&iacute;a y fuentes de informaci&oacute;n',
+        'Caracterizaci&oacute;n agraria del territorio',
+        'Estimaci&oacute;n de productores y renta agraria',
+        'Diagn&oacute;stico general de da&ntilde;os y mecanismos de afecci&oacute;n',
+        'Evaluaci&oacute;n de da&ntilde;os en el cultivo del olivar',
+        'Evaluaci&oacute;n de da&ntilde;os en cultivos herb&aacute;ceos',
+        'Conclusiones generales del impacto econ&oacute;mico',
+    ],
+]);
+
 // Reemplazos de variables en la plantilla
 $reemplazos = [
     '{TITULO_CAMPANA}'   => htmlspecialchars(TITULO_CAMPANA),
@@ -949,6 +971,7 @@ $reemplazos = [
     '{FILAS_CALCULO}'    => $filasCalculo,
     '{TOTAL_EUR}'        => eur($totalEur),
     '{FECHA}'            => $fechaHoy,
+    '{PORTADA_INDICE}'   => '',  // se escribe en WriteHTML separado antes del cuerpo
     '{FIRMA_IMG}'        => $firmaImgPath
         ? '<img src="' . $firmaImgPath . '" style="max-width:220px;max-height:80px;margin:8px 0 4px auto;display:block;" />'
         : '<div class="firma-linea"></div>',
@@ -980,10 +1003,12 @@ $mpdf = new \Mpdf\Mpdf([
     'dpi'           => 96,
 ]);
 $mpdf->SetCompression(true);
-$mpdf->SetHTMLHeader($headerHtml);
-
 $mpdf->SetTitle('Informe Daños Borrasca – ' . $nombre);
 $mpdf->SetAuthor('ACGranada');
+// Portada e índice sin cabecera de página
+$mpdf->WriteHTML('<!DOCTYPE html><html lang="es"><head><meta charset="UTF-8"></head><body>' . $portadaIndiceHtml . '</body></html>');
+// Activar cabecera y escribir el cuerpo del informe
+$mpdf->SetHTMLHeader($headerHtml);
 
 // Escribir el informe principal (sin imágenes → HTML pequeño)
 $mpdf->WriteHTML($htmlPDF);

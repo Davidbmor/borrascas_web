@@ -1,9 +1,10 @@
 <?php
 declare(strict_types=1);
-ini_set('memory_limit', '1024M');
+ini_set('memory_limit', '2048M');
 session_start();
 require_once __DIR__ . '/config_m2.php';
 require_once __DIR__ . '/../vendor/autoload.php';
+require_once __DIR__ . '/../includes/informe_estructura.php';
 
 // ─── Helpers ──────────────────────────────────────────────────────
 function m2_eur(float $v): string { return number_format($v, 2, ',', '.') . ' €'; }
@@ -314,15 +315,15 @@ $fechaHoy = date('d/m/Y');
 
 // ─── CABECERA CON Nº EXPEDIENTE, NOMBRE Y DNI ─────────────────────
 $headerHtml = '
-<table style="width:100%;border-bottom:2px solid #2d6a4f;padding-bottom:5px;font-family:DejaVu Sans,Arial,sans-serif;font-size:8.5px;color:#333;">
+<table style="width:100%;border-bottom:2px solid #2d6a4f;padding-bottom:5px;font-family:DejaVu Sans,Arial,sans-serif;font-size:10.5px;color:#333;">
   <tr>
     <td style="width:65px;vertical-align:middle;">' . $logoHtml . '</td>
     <td style="vertical-align:middle;padding-left:8px;">
-      <div style="font-size:11px;font-weight:bold;color:#1b4332;text-transform:uppercase;">INFORME DE DA&Ntilde;OS POR BORRASCA &middot; MODELO 2</div>
-      <div style="font-size:9px;color:#2d6a4f;font-weight:bold;margin-top:2px;">Expediente: ' . m2_h($numExpediente) . '</div>
-      <div style="font-size:8.5px;color:#444;margin-top:1px;">Solicitante: <strong>' . m2_h($razonSocial) . '</strong> (' . m2_h($cifNif) . ')</div>
+      <div style="font-size:13px;font-weight:bold;color:#1b4332;text-transform:uppercase;">INFORME DE DA&Ntilde;OS POR BORRASCA &middot; MODELO 2</div>
+      <div style="font-size:11px;color:#2d6a4f;font-weight:bold;margin-top:2px;">Expediente: ' . m2_h($numExpediente) . '</div>
+      <div style="font-size:10.5px;color:#444;margin-top:1px;">Solicitante: <strong>' . m2_h($razonSocial) . '</strong> (' . m2_h($cifNif) . ')</div>
     </td>
-    <td style="width:90px;text-align:right;vertical-align:top;font-size:8.5px;color:#666;">
+    <td style="width:90px;text-align:right;vertical-align:top;font-size:10.5px;color:#666;">
       <div>Fecha: ' . $fechaHoy . '</div>
     </td>
   </tr>
@@ -330,7 +331,7 @@ $headerHtml = '
 
 // ─── PIE DE PÁGINA CON PAGINACIÓN DINÁMICA ────────────────────────
 $footerHtml = '
-<table style="width:100%;border-top:1px solid #ccc;padding-top:4px;font-family:DejaVu Sans,Arial,sans-serif;font-size:8px;color:#666;">
+<table style="width:100%;border-top:1px solid #ccc;padding-top:4px;font-family:DejaVu Sans,Arial,sans-serif;font-size:10px;color:#666;">
   <tr>
     <td style="text-align:left;">' . htmlspecialchars(M2_TITULO_CAMPANA) . ' &middot; ACGranada</td>
     <td style="text-align:right;">P&aacute;gina {PAGENO} de {nbpg}</td>
@@ -364,18 +365,18 @@ Este informe se enmarca en el ' . m2_h(M2_REAL_DECRETO) . ', por el que se adopt
 
 $textoIntro = 'Durante el mes de enero y primeros d&iacute;as de febrero del a&ntilde;o 2026 se produjeron diversos episodios meteorol&oacute;gicos adversos en la provincia de Granada, caracterizados por precipitaciones intensas y persistentes, acompa&ntilde;adas en algunos momentos de fuertes rachas de viento.<br><br>
 En el Informe Meteorol&oacute;gico del mes de febrero de 2026 de la Red de Alerta de Informaci&oacute;n Fitosanitaria (RAIF) se puede apreciar la excepcionalidad de las precipitaciones comparando en la siguiente gr&aacute;fica el climatograma del a&ntilde;o 2026 con los datos hist&oacute;ricos en la provincia de Granada.<br><br>
-<div style="text-align:center;margin:6px 0;"><img src="' . __DIR__ . '/../assets/img/m2_doc/doc_img_1.png" style="height:150px;width:auto;max-width:95%;border:1px solid #c8ddd3;border-radius:4px;" /><div style="font-size:8px;color:#555;font-style:italic;margin-top:2px;">Figura 1. Climatograma del a&ntilde;o agr&iacute;cola actual e hist&oacute;rico en la provincia de Granada (Fuente: RAIF).</div></div><br>
+<div style="text-align:center;margin:6px 0;"><img src="' . __DIR__ . '/../assets/img/m2_doc/doc_img_1.png" style="height:150px;width:auto;max-width:95%;border:1px solid #c8ddd3;border-radius:4px;" /><div style="font-size:10px;color:#555;font-style:italic;margin-top:2px;">Figura 1. Climatograma del a&ntilde;o agr&iacute;cola actual e hist&oacute;rico en la provincia de Granada (Fuente: RAIF).</div></div><br>
 En Andaluc&iacute;a, las precipitaciones fueron muy excepcionales. A mediados del mes de enero se form&oacute; la profunda borrasca Harry en el Mediterr&aacute;neo, que dej&oacute; chubascos intensos y tormentas principalmente en la zona de Albor&aacute;n. Durante el resto del mes siguieron pasando una sucesi&oacute;n de borrascas (Ingrid, Joseph y Kristin), que dejaron fuertes precipitaciones, generalizadas y persistentes, acompa&ntilde;adas de rachas de viento muy fuertes, nevadas importantes en el interior oriental y zonas de monta&ntilde;a, y el desbordamiento de algunos r&iacute;os en nuestra Comunidad.<br><br>
 En el avance climatol&oacute;gico de AEMET para Andaluc&iacute;a, Ceuta y Melilla, enero de 2026 fue un mes muy h&uacute;medo seg&uacute;n la estaci&oacute;n clim&aacute;tica GRANADA (APTO.), con una media de 132,6 mm de lluvia, lo que representa un 320 % de la cantidad habitual para ese mes.<br><br>
 <table style="width:100%;border:none;margin:6px 0;">
   <tr>
     <td style="width:50%;text-align:center;vertical-align:top;border:none;">
       <img src="' . __DIR__ . '/../assets/img/m2_doc/doc_img_2.png" style="height:140px;width:auto;max-width:98%;border:1px solid #c8ddd3;border-radius:4px;" />
-      <div style="font-size:7.5px;color:#555;font-style:italic;margin-top:2px;">Figura 2. Precipitación acumulada - Enero 2026 (AEMET).</div>
+      <div style="font-size:9.5px;color:#555;font-style:italic;margin-top:2px;">Figura 2. Precipitación acumulada - Enero 2026 (AEMET).</div>
     </td>
     <td style="width:50%;text-align:center;vertical-align:top;border:none;">
       <img src="' . __DIR__ . '/../assets/img/m2_doc/doc_img_3.png" style="height:140px;width:auto;max-width:98%;border:1px solid #c8ddd3;border-radius:4px;" />
-      <div style="font-size:7.5px;color:#555;font-style:italic;margin-top:2px;">Figura 3. Car&aacute;cter precipitación - Enero 2026 (AEMET).</div>
+      <div style="font-size:9.5px;color:#555;font-style:italic;margin-top:2px;">Figura 3. Car&aacute;cter precipitación - Enero 2026 (AEMET).</div>
     </td>
   </tr>
 </table><br>
@@ -386,23 +387,23 @@ En el avance climatol&oacute;gico de AEMET para Andaluc&iacute;a, Ceuta y Melill
   <tr>
     <td style="width:50%;text-align:center;vertical-align:top;border:none;">
       <img src="' . __DIR__ . '/../assets/img/m2_doc/doc_img_4.png" style="height:140px;width:auto;max-width:98%;border:1px solid #c8ddd3;border-radius:4px;" />
-      <div style="font-size:7.5px;color:#555;font-style:italic;margin-top:2px;">Figura 4. Precipitación acumulada - Febrero 2026 (AEMET).</div>
+      <div style="font-size:9.5px;color:#555;font-style:italic;margin-top:2px;">Figura 4. Precipitación acumulada - Febrero 2026 (AEMET).</div>
     </td>
     <td style="width:50%;text-align:center;vertical-align:top;border:none;">
       <img src="' . __DIR__ . '/../assets/img/m2_doc/doc_img_5.png" style="height:140px;width:auto;max-width:98%;border:1px solid #c8ddd3;border-radius:4px;" />
-      <div style="font-size:7.5px;color:#555;font-style:italic;margin-top:2px;">Figura 5. Car&aacute;cter precipitación - Febrero 2026 (AEMET).</div>
+      <div style="font-size:9.5px;color:#555;font-style:italic;margin-top:2px;">Figura 5. Car&aacute;cter precipitación - Febrero 2026 (AEMET).</div>
     </td>
   </tr>
 </table><br>
 Los mayores acumulados se concentraron en el sector occidental de la provincia, donde la estaci&oacute;n meteorol&oacute;gica de la RIA de Iznalloz alcanz&oacute; los 654 mm durante el periodo analizado. Las persistentes lluvias ocasionaron igualmente un aumento considerable del caudal de los r&iacute;os y arroyos provocando la inundaci&oacute;n y encharcamiento de los cultivos. Sirva de ejemplo la siguiente ilustraci&oacute;n con el hidrograma en el punto SAIH R&Iacute;O GENIL-PTE. TOC&Oacute;N.<br><br>
-<div style="text-align:center;margin:6px 0;"><img src="' . __DIR__ . '/../assets/img/m2_doc/doc_img_6.png" style="height:150px;width:auto;max-width:95%;border:1px solid #c8ddd3;border-radius:4px;" /><div style="font-size:8px;color:#555;font-style:italic;margin-top:2px;">Figura 6. Hidrograma del punto SAIH R&iacute;o Genil - Pte. Toc&oacute;n (05/02/2026).</div></div><br>
+<div style="text-align:center;margin:6px 0;"><img src="' . __DIR__ . '/../assets/img/m2_doc/doc_img_6.png" style="height:150px;width:auto;max-width:95%;border:1px solid #c8ddd3;border-radius:4px;" /><div style="font-size:10px;color:#555;font-style:italic;margin-top:2px;">Figura 6. Hidrograma del punto SAIH R&iacute;o Genil - Pte. Toc&oacute;n (05/02/2026).</div></div><br>
 Adem&aacute;s de la gran cantidad de lluvia acumulada, el elevado n&uacute;mero de d&iacute;as consecutivos con precipitaciones ha dificultado el trabajo en el campo. Esta situaci&oacute;n ha impedido acceder con normalidad a las explotaciones y realizar labores esenciales, como la recolecci&oacute;n, la fertilizaci&oacute;n o los tratamientos fitosanitarios, aumentando as&iacute; el impacto del exceso de lluvia sobre la actividad agr&iacute;cola.<br><br>
 Estos fen&oacute;menos provocaron incidencias significativas sobre la actividad agraria en diferentes zonas de la provincia, especialmente en aquellas &aacute;reas con mayor presencia de cultivos le&ntilde;osos y superficies agr&iacute;colas situadas en zonas de pendiente o pr&oacute;ximas a cauces y ramblas con incidencia debido a la p&eacute;rdida de cosechas y mayores costes en la recolecci&oacute;n, adem&aacute;s de la p&eacute;rdida de calidad.<br><br>
 En el &aacute;mbito agrario, y especialmente en el sector del olivar, esta combinaci&oacute;n de factores tuvo una incidencia directa sobre el desarrollo normal de la campa&ntilde;a de recolecci&oacute;n, al coincidir con una fase en la que una parte significativa de la cosecha permanec&iacute;a pendiente de recogida.';
 $textoMetodologia = 'Este apartado tiene por objeto incorporar al presente informe un an&aacute;lisis objetivo del comportamiento de la campa&ntilde;a agr&iacute;cola en la explotaci&oacute;n a partir de los datos sectoriales. La finalidad de este an&aacute;lisis es aportar una base com&uacute;n de car&aacute;cter t&eacute;cnico que permita acreditar a escala de la explotaci&oacute;n agr&iacute;cola la existencia de una afecci&oacute;n general sobre la actividad agr&iacute;cola y su incidencia sobre la renta agraria.<br><br>
 El da&ntilde;o econ&oacute;mico de una explotaci&oacute;n agr&iacute;cola no depende exclusivamente de la producci&oacute;n finalmente recolectada, sino del conjunto de consecuencias derivadas del episodio meteorol&oacute;gico sobre el sistema productivo. En consecuencia, la valoraci&oacute;n incorpora tanto las p&eacute;rdidas directas como los da&ntilde;os diferidos y los incrementos de costes ocasionados por la adversidad clim&aacute;tica.<br><br>
 Se distinguen cinco componentes fundamentales del da&ntilde;o econ&oacute;mico:
-<ul style="margin:5px 0 10px 18px;padding:0;font-size:9.5px;">
+<ul style="margin:5px 0 10px 18px;padding:0;font-size:11.5px;">
   <li>P&eacute;rdidas de producci&oacute;n de la campa&ntilde;a afectada;</li>
   <li>P&eacute;rdidas de producci&oacute;n de la campa&ntilde;a siguiente;</li>
   <li>Depreciaci&oacute;n de la calidad comercial;</li>
@@ -411,21 +412,21 @@ Se distinguen cinco componentes fundamentales del da&ntilde;o econ&oacute;mico:
 </ul>
 La valoraci&oacute;n final del da&ntilde;o se obtiene mediante la suma de todas estas partidas.<br><br>
 
-<h4 style="font-size:10.5px;color:#1b4332;margin-top:10px;margin-bottom:4px;">P&eacute;rdidas en producci&oacute;n:</h4>
+<h4 style="font-size:12.5px;color:#1b4332;margin-top:10px;margin-bottom:4px;">P&eacute;rdidas en producci&oacute;n:</h4>
 La p&eacute;rdida en producci&oacute;n se debe a cosecha que no se ha podido recolectar porque se ha ca&iacute;do al suelo y los costes de recogida superan los beneficios, o bien, no se ha podido cosechar porque el da&ntilde;o en las infraestructuras impide el paso de maquinaria y/o veh&iacute;culos.<br><br>
 La p&eacute;rdida econ&oacute;mica de producci&oacute;n se calcula mediante:<br>
-<div style="background:#f0f4f0;border-left:3px solid #2d6a4f;padding:5px 10px;margin:5px 0;font-size:9px;font-weight:bold;">
+<div style="background:#f0f4f0;border-left:3px solid #2d6a4f;padding:5px 10px;margin:5px 0;font-size:11px;font-weight:bold;">
   Coste P&eacute;rdida producci&oacute;n = (Producci&oacute;n estimada &minus; Producci&oacute;n real) &times; Precio medio de campa&ntilde;a
 </div>
 A tal efecto, en caso de el titular no pueda acreditar datos de producci&oacute;n, se ha estimado un impacto medio aproximado del 40% sobre la producci&oacute;n agraria potencial. Las lluvias persistentes han generado: encharcamientos prolongados, arrastres de suelo, da&ntilde;os en caminos rurales, ca&iacute;da de fruto y afecci&oacute;n radicular en cultivos le&ntilde;osos, p&eacute;rdida de calidad del fruto y sobrecostes operativos en cooperativas.<br><br>
 La p&eacute;rdida econ&oacute;mica de producci&oacute;n se calcula mediante:<br>
-<div style="background:#f0f4f0;border-left:3px solid #2d6a4f;padding:5px 10px;margin:5px 0;font-size:9px;font-weight:bold;">
+<div style="background:#f0f4f0;border-left:3px solid #2d6a4f;padding:5px 10px;margin:5px 0;font-size:11px;font-weight:bold;">
   Coste P&eacute;rdida producci&oacute;n = Producci&oacute;n estimada &times; % p&eacute;rdida &times; Precio medio de campa&ntilde;a
 </div><br>
 
-<h4 style="font-size:10.5px;color:#1b4332;margin-top:10px;margin-bottom:4px;">P&eacute;rdidas en producci&oacute;n pr&oacute;xima cosecha:</h4>
+<h4 style="font-size:12.5px;color:#1b4332;margin-top:10px;margin-bottom:4px;">P&eacute;rdidas en producci&oacute;n pr&oacute;xima cosecha:</h4>
 El encharcamiento y exceso de humedad durante largos per&iacute;odos de tiempo influye en la p&eacute;rdida en producci&oacute;n en la pr&oacute;xima cosecha debido a:
-<ul style="margin:5px 0 10px 18px;padding:0;font-size:9.5px;">
+<ul style="margin:5px 0 10px 18px;padding:0;font-size:11.5px;">
   <li>Asfixia radicular por falta de ox&iacute;geno;</li>
   <li>Reducci&oacute;n del crecimiento radicular;</li>
   <li>Menor absorci&oacute;n de nitr&oacute;geno, f&oacute;sforo y potasio;</li>
@@ -453,42 +454,42 @@ El % reducci&oacute;n fisiol&oacute;gica por el encharcamiento y exceso de humed
 </table>
 En ausencia de datos individualizados de la explotaci&oacute;n, y atendiendo a la evidencia cient&iacute;fica disponible sobre los efectos fisiol&oacute;gicos del encharcamiento prolongado en el olivo, se considera t&eacute;cnicamente razonable estimar una reducci&oacute;n potencial de la producci&oacute;n de la campa&ntilde;a siguiente comprendida entre el 20 % y el 30 %, pudiendo alcanzar valores del 35-40 % en explotaciones con drenaje deficiente, elevada duraci&oacute;n del encharcamiento o afecci&oacute;n radicular significativa.<br><br>
 La p&eacute;rdida en la pr&oacute;xima cosecha puede estimarse como:<br>
-<div style="background:#f0f4f0;border-left:3px solid #2d6a4f;padding:5px 10px;margin:5px 0;font-size:9px;font-weight:bold;">
+<div style="background:#f0f4f0;border-left:3px solid #2d6a4f;padding:5px 10px;margin:5px 0;font-size:11px;font-weight:bold;">
   Coste da&ntilde;os pr&oacute;xima campa&ntilde;a = Producci&oacute;n estimada pr&oacute;xima cosecha &times; % reducci&oacute;n fisiol&oacute;gica &times; precio previsto
 </div><br>
 
-<h4 style="font-size:10.5px;color:#1b4332;margin-top:10px;margin-bottom:4px;">Depreciaci&oacute;n en calidad de la producci&oacute;n:</h4>
+<h4 style="font-size:12.5px;color:#1b4332;margin-top:10px;margin-bottom:4px;">Depreciaci&oacute;n en calidad de la producci&oacute;n:</h4>
 No toda la producci&oacute;n recolectada mantiene su valor comercial. Una parte significativa del producto experimenta p&eacute;rdidas de calidad que reducen el precio percibido por el agricultor debido a la recolecci&oacute;n de fruto de suelo o con da&ntilde;os por enfermedades debido a la humedad. La aceituna del suelo suele generar aceites con defectos y menor contenido fen&oacute;lico. Los aceites obtenidos con aceitunas de suelo presentan m&aacute;s oxidaci&oacute;n, acidez, &eacute;steres alqu&iacute;licos y defectos sensoriales (atrojado, avinado, humedad y tierra).<br><br>
 La depreciaci&oacute;n econ&oacute;mica se obtiene mediante:<br>
-<div style="background:#f0f4f0;border-left:3px solid #2d6a4f;padding:5px 10px;margin:5px 0;font-size:9px;font-weight:bold;">
+<div style="background:#f0f4f0;border-left:3px solid #2d6a4f;padding:5px 10px;margin:5px 0;font-size:11px;font-weight:bold;">
   Coste p&eacute;rdida calidad = Producci&oacute;n comercializada menor calidad &times; diferencia de precio entre aceituna sana y aceituna depreciada
 </div><br>
 
-<h4 style="font-size:10.5px;color:#1b4332;margin-top:10px;margin-bottom:4px;">Sobrecostes durante la recolecci&oacute;n:</h4>
+<h4 style="font-size:12.5px;color:#1b4332;margin-top:10px;margin-bottom:4px;">Sobrecostes durante la recolecci&oacute;n:</h4>
 La ca&iacute;da de aceituna por viento o retraso en la recolecci&oacute;n por las lluvias ocasiona tambi&eacute;n un aumento del coste unitario de recolecci&oacute;n que es el principal coste en el olivar. Cuando la aceituna se coge del suelo requiere m&aacute;s tiempo y m&aacute;s mano de obra ya que se reduce la eficacia de la maquinaria y exige mayor esfuerzo en las tareas manuales.<br><br>
 Diversos estudios econ&oacute;micos sit&uacute;an incrementos del coste de recolecci&oacute;n comprendidos habitualmente entre el 15 % y el 40 %, dependiendo del grado de afecci&oacute;n y del porcentaje de aceituna ca&iacute;da.<br><br>
 El sobrecoste se obtiene teniendo en cuenta el coste medio de recolecci&oacute;n en &euro;/kg. de aceituna multiplic&aacute;ndolo por los kg. de aceituna de suelo y por el porcentaje de sobrecoste estimado entre el 15% y el 40%:<br>
-<div style="background:#f0f4f0;border-left:3px solid #2d6a4f;padding:5px 10px;margin:5px 0;font-size:9px;font-weight:bold;">
+<div style="background:#f0f4f0;border-left:3px solid #2d6a4f;padding:5px 10px;margin:5px 0;font-size:11px;font-weight:bold;">
   Sobrecoste recolecci&oacute;n = Cantidad aceituna de suelo &times; coste medio recolecci&oacute;n &times; % incremento de coste
 </div><br>
 
-<h4 style="font-size:10.5px;color:#1b4332;margin-top:10px;margin-bottom:4px;">Sobrecostes de producci&oacute;n:</h4>
+<h4 style="font-size:12.5px;color:#1b4332;margin-top:10px;margin-bottom:4px;">Sobrecostes de producci&oacute;n:</h4>
 La aceituna ca&iacute;da al suelo ocasiona unos costes en la cooperativa almazara debido a la necesidad de separar el fruto de vuelo, fallos en maquinaria, etc. Esa separaci&oacute;n igualmente exige m&aacute;s tiempo en finca, m&aacute;s atenci&oacute;n en el transporte y una recepci&oacute;n diferenciada en almazara.<br>
 El sobrecoste se obtiene comparando el coste real con el coste habitual de campa&ntilde;as normales.<br><br>
 
-<h4 style="font-size:10.5px;color:#1b4332;margin-top:10px;margin-bottom:4px;">Otros costes (tratamientos, recuperaci&oacute;n de cultivo,&hellip;):</h4>
+<h4 style="font-size:12.5px;color:#1b4332;margin-top:10px;margin-bottom:4px;">Otros costes (tratamientos, recuperaci&oacute;n de cultivo,&hellip;):</h4>
 Se estiman otros costes posteriores a la recolecci&oacute;n y postcosecha. La RAIF se&ntilde;ala que los episodios de lluvias intensas y persistentes generan dificultades en las labores culturales, problemas de asfixia radicular, procesos erosivos y un aumento significativo de la incidencia de enfermedades en olivar que obligan a mayores costes de tratamientos fungicidas extraordinarios, aplicaciones de bioestimulantes, labores de descompactaci&oacute;n y reposiciones de plantas.<br><br>
 Las recomendaciones t&eacute;cnicas de RAIF e IFAPA indican que los episodios prolongados de saturaci&oacute;n h&iacute;drica incrementan significativamente la incidencia de enfermedades y obligan a intensificar las labores de recuperaci&oacute;n durante los meses posteriores.<br>
 El sobrecoste se obtiene comparando el coste real con el coste habitual de campa&ntilde;as normales.<br><br>
 
-<h4 style="font-size:10.5px;color:#1b4332;margin-top:10px;margin-bottom:4px;">Valoraci&oacute;n Final y Estimaci&oacute;n de Da&ntilde;os:</h4>
+<h4 style="font-size:12.5px;color:#1b4332;margin-top:10px;margin-bottom:4px;">Valoraci&oacute;n Final y Estimaci&oacute;n de Da&ntilde;os:</h4>
 La valoraci&oacute;n final y estimaci&oacute;n de da&ntilde;os de la explotaci&oacute;n puede obtenerse mediante la siguiente expresi&oacute;n:<br>
-<div style="background:#1b4332;color:#fff;padding:6px 10px;margin:6px 0;font-size:9px;font-weight:bold;border-radius:3px;">
+<div style="background:#1b4332;color:#fff;padding:6px 10px;margin:6px 0;font-size:11px;font-weight:bold;border-radius:3px;">
   Da&ntilde;o total = P&eacute;rdida de producci&oacute;n campa&ntilde;a + P&eacute;rdida campa&ntilde;a siguiente + Depreciaci&oacute;n de calidad + Sobrecoste de recolecci&oacute;n + Sobrecoste de producci&oacute;n + Costes extraordinarios de recuperaci&oacute;n.
 </div>
 Este modelo permite cuantificar de forma objetiva el perjuicio econ&oacute;mico real sufrido por la explotaci&oacute;n, considerando no solo la cosecha perdida, sino tambi&eacute;n las repercusiones agron&oacute;micas y econ&oacute;micas derivadas de la alteraci&oacute;n del sistema productivo. Esta metodolog&iacute;a ofrece una valoraci&oacute;n completa y ajustada al da&ntilde;o efectivamente soportado por la explotaci&oacute;n, al integrar tanto los efectos inmediatos como los diferidos del episodio clim&aacute;tico, conforme a los criterios t&eacute;cnicos empleados en la evaluaci&oacute;n de da&ntilde;os agrarios y respaldados por la evidencia cient&iacute;fica disponible.<br><br>
 
-<h4 style="font-size:10.5px;color:#1b4332;margin-top:10px;margin-bottom:4px;">Estimaci&oacute;n de costes de referencia:</h4>
+<h4 style="font-size:12.5px;color:#1b4332;margin-top:10px;margin-bottom:4px;">Estimaci&oacute;n de costes de referencia:</h4>
 Para el c&aacute;lculo de los da&ntilde;os se han estimado los siguientes conceptos:
 <table class="datos" style="margin-top:6px;margin-bottom:10px;">
   <thead>
@@ -506,13 +507,13 @@ Para el c&aacute;lculo de los da&ntilde;os se han estimado los siguientes concep
     <tr><td><strong>Olivar</strong></td><td>Sobrecoste producci&oacute;n almazara</td><td style="text-align:right;">0,04 &euro;/kg. aceite</td></tr>
   </tbody>
 </table>
-<div style="font-size:8px;color:#666;margin-bottom:10px;">
+<div style="font-size:10px;color:#666;margin-bottom:10px;">
   <sup>1</sup> Precio medio de referencia para la campa&ntilde;a 2024/2025.<br>
   <sup>2</sup> Diferencia de precio entre AOVE y Lampante referenciada para la campa&ntilde;a 2024/2025.
 </div>
 
-<h4 style="font-size:10px;color:#1b4332;margin-top:10px;margin-bottom:4px;">Fuentes de informaci&oacute;n y referencias t&eacute;cnicas:</h4>
-<ul style="font-size:8.5px;color:#444;line-height:1.4;padding-left:15px;margin-top:4px;">
+<h4 style="font-size:12px;color:#1b4332;margin-top:10px;margin-bottom:4px;">Fuentes de informaci&oacute;n y referencias t&eacute;cnicas:</h4>
+<ul style="font-size:10.5px;color:#444;line-height:1.4;padding-left:15px;margin-top:4px;">
   <li>Arquero, O. &amp; Serrano, N. (2010). <em>Recomendaciones para olivar con problemas por inundaci&oacute;n</em>. Instituto de Investigaci&oacute;n y Formaci&oacute;n Agraria y Pesquera (IFAPA). Junta de Andaluc&iacute;a.</li>
   <li>Avance climatol&oacute;gico mensual en Andaluc&iacute;a, Ceuta y Melilla. Enero 2026.</li>
   <li>Avance climatol&oacute;gico mensual en Andaluc&iacute;a, Ceuta y Melilla. Febrero 2026.</li>
@@ -610,9 +611,9 @@ $textoValoracion = 'Para la elaboraci&oacute;n de la valoraci&oacute;n econ&oacu
   <tr><th>Nivel de afecci&oacute;n / Drenaje</th><td>' . m2_h($nivelAfeccion) . ' &middot; Drenaje ' . m2_h($drenajeParcelas) . ' (% Reducci&oacute;n: ' . ($reduccionFisiologica * 100) . '%)</td></tr>
 </table>
 
-<h4 style="font-size:10.5px;color:#1b4332;margin-top:12px;margin-bottom:6px;">Cuadro Pericial de Desglose de Da&ntilde;os (C&aacute;lculo Olivar):</h4>
+<h4 style="font-size:12.5px;color:#1b4332;margin-top:12px;margin-bottom:6px;">Cuadro Pericial de Desglose de Da&ntilde;os (C&aacute;lculo Olivar):</h4>
 
-<table class="datos" style="margin-top:6px;width:100%;border-collapse:collapse;font-size:8.5px;">
+<table class="datos" style="margin-top:6px;width:100%;border-collapse:collapse;font-size:10.5px;">
   <thead>
     <tr style="background:#2d6a4f;color:#fff;">
       <th style="text-align:left;padding:5px;width:30%;color:#fff;background:#2d6a4f;">Concepto</th>
@@ -675,12 +676,12 @@ $textoValoracion = 'Para la elaboraci&oacute;n de la valoraci&oacute;n econ&oacu
   </tbody>
   <tfoot>
     <tr style="background:#1b4332;color:#fff;font-weight:bold;">
-      <td colspan="4" style="text-align:right;padding:7px;font-size:10px;background:#1b4332;color:#fff;">TOTAL DA&Ntilde;OS ESTIMADOS EN EXPLOTACI&Oacute;N:</td>
-      <td style="text-align:right;padding:7px;font-size:11px;background:#1b4332;color:#fff;font-weight:bold;">' . m2_eur($danoTotal) . '</td>
+      <td colspan="4" style="text-align:right;padding:7px;font-size:12px;background:#1b4332;color:#fff;">TOTAL DA&Ntilde;OS ESTIMADOS EN EXPLOTACI&Oacute;N:</td>
+      <td style="text-align:right;padding:7px;font-size:13px;background:#1b4332;color:#fff;font-weight:bold;">' . m2_eur($danoTotal) . '</td>
     </tr>
   </tfoot>
 </table>
-<div style="font-size:8px;color:#666;margin-top:4px;">
+<div style="font-size:10px;color:#666;margin-top:4px;">
   <sup>1</sup> Precio medio del Kg de aceite de oliva en origen (campa&ntilde;a 2024/2025).<br>
   <sup>2</sup> Diferencia de cotizaci&oacute;n entre Aceite Virgen Extra y Lampante.<br>
   <sup>3</sup> Sobrecoste unitario ponderado de recolecci&oacute;n de suelo e higienizaci&oacute;n en almazara cooperativa.
@@ -694,46 +695,51 @@ $firmaImgTag = $firmaImgPath
     ? '<img src="' . $firmaImgPath . '" style="max-width:220px;max-height:80px;margin:8px 0 4px auto;display:block;" />'
     : '<div class="firma-linea" style="border-top:1px solid #888;width:200px;margin:24px 0 4px auto;"></div>';
 
+// Portada e índice en HTML propio (sin cabecera de página)
+$htmlPortada = pa_generar_portada_indice([
+    'logo_cover_path' => realpath(__DIR__ . '/../assets/img/FaecaAGRO360Transparente.png') ?: '',
+    'solicitante'     => $razonSocial,
+    'documento'       => $cifNif,
+    'expediente'      => $numExpediente,
+    'fecha'           => $fechaHoy,
+    'indice'          => [
+        'Datos del solicitante',
+        'Objeto del informe',
+        'Datos de la explotaci&oacute;n',
+        'Introducci&oacute;n y contexto meteorol&oacute;gico',
+        'Metodolog&iacute;a y fuentes de informaci&oacute;n',
+        'Descripci&oacute;n de da&ntilde;os',
+        'Valoraci&oacute;n de da&ntilde;os y p&eacute;rdida de renta',
+        'Conclusi&oacute;n',
+        'Anexo: Fotograf&iacute;as del cultivo afectado',
+    ],
+]);
+
 $htmlPDF = '<!DOCTYPE html>
 <html lang="es"><head><meta charset="UTF-8">
 <style>
-body { font-family: DejaVu Sans, Arial, sans-serif; font-size: 10px; color: #222; margin: 0; }
-h2 { font-size: 12px; color: #1b4332; border-bottom: 2px solid #2d6a4f; padding-bottom: 4px; margin-top: 16px; margin-bottom: 8px; text-transform: uppercase; }
-h3 { font-size: 10.5px; color: #2d6a4f; margin-top: 12px; margin-bottom: 6px; }
+body { font-family: DejaVu Sans, Arial, sans-serif; font-size:12px; color: #222; margin: 0; }
+h2 { font-size:14px; color: #1b4332; border-bottom: 2px solid #2d6a4f; padding-bottom: 4px; margin-top: 16px; margin-bottom: 8px; text-transform: uppercase; }
+h3 { font-size:12.5px; color: #2d6a4f; margin-top: 12px; margin-bottom: 6px; }
 .indice { background: #f0faf3; border: 1px solid #c3dac8; border-radius: 4px; padding: 10px 14px; margin-bottom: 16px; }
 .indice h3 { margin-top: 0; }
 .indice ol { margin: 0; padding-left: 18px; }
-.indice li { margin-bottom: 2px; font-size: 9.5px; }
-.num-exp { background: #1b4332; color: #fff; border-radius: 4px; padding: 4px 10px; font-weight: bold; font-size: 11px; display: inline-block; margin-bottom: 8px; }
-table.datos { width: 100%; border-collapse: collapse; margin-bottom: 10px; font-size: 9.5px; }
+.indice li { margin-bottom: 2px; font-size:11.5px; }
+.num-exp { background: #1b4332; color: #fff; border-radius: 4px; padding: 4px 10px; font-weight: bold; font-size:13px; display: inline-block; margin-bottom: 8px; }
+table.datos { width: 100%; border-collapse: collapse; margin-bottom: 10px; font-size:11.5px; }
 table.datos th { background: #f0f4f0; color: #1b4332; padding: 4px 7px; text-align: left; border: 1px solid #c8ddd3; font-weight: bold; width: 38%; }
 table.datos td { padding: 4px 7px; border: 1px solid #c8ddd3; }
-.firma-bloque { margin-top: 20px; text-align: right; font-size: 10px; color: #555; }
+.firma-bloque { margin-top: 20px; text-align: right; font-size:12px; color: #555; }
 p { margin: 0 0 6px; line-height: 1.55; text-align: justify; }
-.sec-body { font-size: 10px; line-height: 1.55; text-align: justify; margin-bottom: 10px; }
+.sec-body { font-size:12px; line-height: 1.55; text-align: justify; margin-bottom: 10px; }
 </style>
 </head><body>
 
 <div class="num-exp"># ' . m2_h($numExpediente) . '</div>
-<h1 style="font-size:14px;color:#1b4332;text-transform:uppercase;letter-spacing:.04em;margin-bottom:4px;">
+<h1 style="font-size:16px;color:#1b4332;text-transform:uppercase;letter-spacing:.04em;margin-bottom:4px;">
   Informe T&eacute;cnico: Evaluaci&oacute;n de Da&ntilde;os por Borrascas
 </h1>
-<div style="font-size:9.5px;color:#666;margin-bottom:12px;">' . m2_h(M2_TITULO_CAMPANA) . ' &middot; ' . m2_h(M2_PROVINCIA) . ' &middot; ' . $fechaHoy . '</div>
-
-<div class="indice">
-  <h3>Contenido del Informe</h3>
-  <ol>
-    <li>Datos del solicitante</li>
-    <li>Objeto del informe</li>
-    <li>Datos de la explotaci&oacute;n</li>
-    <li>Introducci&oacute;n y contexto meteorol&oacute;gico</li>
-    <li>Metodolog&iacute;a y fuentes de informaci&oacute;n</li>
-    <li>Descripci&oacute;n de da&ntilde;os</li>
-    <li>Valoraci&oacute;n de da&ntilde;os y p&eacute;rdida de renta</li>
-    <li>Conclusi&oacute;n</li>
-    <li>Anexo: Fotograf&iacute;as del cultivo afectado</li>
-  </ol>
-</div>
+<div style="font-size:11.5px;color:#666;margin-bottom:12px;">' . m2_h(M2_TITULO_CAMPANA) . ' &middot; ' . m2_h(M2_PROVINCIA) . ' &middot; ' . $fechaHoy . '</div>
 
 <h2>1. Datos del solicitante</h2>
 <h3>Titular</h3>
@@ -799,7 +805,7 @@ p { margin: 0 0 6px; line-height: 1.55; text-align: justify; }
 
 </body></html>';
 
-// ─── GENERAR PDF ──────────────────────────────────────────────────
+/// ─── GENERAR PDF ──────────────────────────────────────────────────
 $mpdf = new \Mpdf\Mpdf([
     'mode'          => 'utf-8',
     'format'        => 'A4',
@@ -813,11 +819,37 @@ $mpdf = new \Mpdf\Mpdf([
     'dpi'           => 96,
 ]);
 $mpdf->SetCompression(true);
-$mpdf->SetHTMLHeader($headerHtml);
-$mpdf->SetHTMLFooter($footerHtml);
 $mpdf->SetTitle('Informe Daños Borrasca M2 – ' . $razonSocial);
 $mpdf->SetAuthor('ACGranada');
+
+// Separar las cadenas de la portada y del índice
+$partesEstructura = explode('<!--SPLIT_PORTADA_INDICE-->', $htmlPortada);
+$htmlSoloPortada   = $partesEstructura[0] ?? '';
+$htmlSoloIndice    = $partesEstructura[1] ?? '';
+
+// Texto del footer exclusivo para la Portada
+$footerEmpresaPortada = '
+<div style="text-align:center; font-family:DejaVu Sans,Arial,sans-serif; font-size:11.5px; color:#555; line-height:1.6;">
+    Cooperativas Agro-alimentarias de Granada<br>
+    C/Doctor L&oacute;pez Font, bajo 7 &ndash; Edif. Guadalquivir. C.P. 18004 &ndash; Granada<br>
+    Tfno: 958 522 616 &ndash; Fax: 958 535 245<br>
+    www.faecagranada.com
+</div>';
+
+// 1. PÁGINA 1: Imprimir Portada con pie de empresa (Sin cabecera)
+$mpdf->SetHTMLFooter($footerEmpresaPortada);
+$mpdf->WriteHTML('<!DOCTYPE html><html lang="es"><head><meta charset="UTF-8"></head><body>' . $htmlSoloPortada . '</body></html>');
+
+// 2. PÁGINA 2: Imprimir Índice (Sin pie de empresa y Sin cabecera)
+$mpdf->AddPage();
+$mpdf->SetHTMLFooter(''); // Limpia el footer de la empresa para la página del índice
+$mpdf->WriteHTML('<!DOCTYPE html><html lang="es"><head><meta charset="UTF-8"></head><body>' . $htmlSoloIndice . '</body></html>');
+
+// 3. PÁGINA 3 EN ADELANTE: Activar Cabecera y Pie Globales del informe
+$mpdf->SetHTMLHeader($headerHtml);
+$mpdf->SetHTMLFooter($footerHtml);
 $mpdf->WriteHTML($htmlPDF);
+
 if (!empty($imagenesBase)) {
     $mpdf->WriteHTML($htmlImagenes);
 }
